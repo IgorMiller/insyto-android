@@ -162,7 +162,7 @@ public class InsytoTabbedActivity extends AppCompatActivity {
             int sectionNumber = this.getArguments().getInt(ARG_SECTION_NUMBER);
 
             TextView cardTitle = (TextView) rootView.findViewById(R.id.card_title);
-            cardTitle.setText("I LOVE ROCK n ROLL " + sectionNumber + " BABY!");
+            cardTitle.setText("I LOVE ROCK n ROLL " + sectionNumber + " BABY!!!");
 
             TextView textView = (TextView) rootView.findViewById(R.id.card_text);
             textView.append(TEST_TEXT);
