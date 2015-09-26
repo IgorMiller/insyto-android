@@ -1,11 +1,10 @@
 package alphadevs.insyto_android;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
-import android.text.method.ScrollingMovementMethod;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,29 +22,26 @@ import android.widget.TextView;
 public class InsyteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+    static final String ARG_INSYTE_ID= "id";
     private static final String ARG_PARAM2 = "param2";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
+    private String mInsyteId;
     private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
+     * @param id Insyte id.
      * @param param2 Parameter 2.
      * @return A new instance of fragment InsyteFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static InsyteFragment newInstance(String param1, String param2) {
+    public static InsyteFragment newInstance(String id, String param2) {
         InsyteFragment fragment = new InsyteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_INSYTE_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,7 +54,7 @@ public class InsyteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
+            mInsyteId = getArguments().getString(ARG_INSYTE_ID);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
@@ -78,60 +74,33 @@ public class InsyteFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_insyte, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.card_text);
 
-        textView.setText("I LOVE ROCK n ROLL, BABY!");
+        TextView cardTitle = (TextView) rootView.findViewById(R.id.card_title);
+        cardTitle.setText("I LOVE ROCK n ROLL, BABY!!!" + mInsyteId);
+
+        TextView textView = (TextView) rootView.findViewById(R.id.card_text);
         textView.append(TEST_TEXT);
         textView.append(TEST_TEXT);
         textView.append(TEST_TEXT);
-        textView.setMovementMethod(new ScrollingMovementMethod());
 
         TextView newTextView = new TextView(getActivity());
         newTextView.setText("Macaca is Watching you!");
         newTextView.setTextColor(Color.RED);
 
+
         return rootView;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        public void onFragmentInteraction(Uri uri);
-    }
-
 }
