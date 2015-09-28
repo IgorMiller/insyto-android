@@ -6,26 +6,36 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
+
+import alphadevs.insyto_android.adapter.MyRecyclerViewAdapter;
+import alphadevs.insyto_android.data.InsyteItemData;
 
 public class InsytoActivity extends AppCompatActivity
         implements InsyteFragmentList.OnInsyteListInteractionListener {
 
-    /**
-     * The {@link android.support.v4.view.PagerAdapter} that will provide
-     * fragments for each of the sections. We use a
-     * {@link FragmentPagerAdapter} derivative, which will keep every
-     * loaded fragment in memory. If this becomes too memory intensive, it
-     * may be best to switch to a
-     * {@link android.support.v4.app.FragmentStatePagerAdapter}.
-     */
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private static String LOG_TAG = "CardViewActivity";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_insyto);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(getDataSet());
+        mRecyclerView.setAdapter(mAdapter);
     }
 
 
@@ -55,7 +65,7 @@ public class InsytoActivity extends AppCompatActivity
     @Override
     public void onSelectItem(String id)
     {
-        InsyteFragment insyteFragment = InsyteFragment.newInstance(id, null);
+        /*InsyteFragment insyteFragment = InsyteFragment.newInstance(id, null);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
@@ -65,6 +75,18 @@ public class InsytoActivity extends AppCompatActivity
         transaction.addToBackStack(null);
 
         // Commit the transaction
-        transaction.commit();
+        transaction.commit();*/
+    }
+
+    private ArrayList<InsyteItemData> getDataSet() {
+        ArrayList results = new ArrayList<InsyteItemData>();
+        for (int index = 0; index < 20; index++) {
+            InsyteItemData obj = new InsyteItemData();
+            obj.setTitle("Some Primary Text " + index);
+            obj.setDescription("Secondary " + index);
+            obj.setThumbnail(1);// TODO what
+            results.add(index, obj);
+        }
+        return results;
     }
 }
