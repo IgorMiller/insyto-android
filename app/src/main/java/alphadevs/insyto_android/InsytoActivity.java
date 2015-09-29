@@ -78,12 +78,25 @@ public class InsytoActivity extends AppCompatActivity
         transaction.commit();*/
     }
 
+    private static final String TEST_TEXT = " Cards present information to users with a consistent look and feel across different apps. This lesson shows you how to create cards in your Android Wear apps.\n" +
+            "\n" +
+            "The Wearable UI Library provides implementations of cards specifically designed for wearable devices. This library contains the CardFrame class, which wraps views inside a card-styled frame with a white background, rounded corners, and a light-drop shadow. A CardFrame instance can only contain one direct child, usually a layout manager, to which you can add other views to customize the content inside the card.\n" +
+            "\n" +
+            "You can add cards to your app in two ways:\n" +
+            "\n" +
+            "    Use or extend the CardFragment class.\n" +
+            "    Add a card inside a CardScrollView instance in your layout.\n" +
+            "\n" +
+            "Note: This lesson shows you how to add cards to Android Wear activities. Android notifications on wearable devices are also displayed as cards. For more information, see Adding Wearable Features to Notifications.";
+
+
+
     private ArrayList<InsyteItemData> getDataSet() {
         ArrayList results = new ArrayList<InsyteItemData>();
         for (int index = 0; index < 20; index++) {
             InsyteItemData obj = new InsyteItemData();
             obj.setTitle("Some Primary Text " + index);
-            obj.setDescription("Secondary " + index);
+            obj.setDescription(index + TEST_TEXT);
             obj.setThumbnail(1);// TODO what
             results.add(index, obj);
         }
