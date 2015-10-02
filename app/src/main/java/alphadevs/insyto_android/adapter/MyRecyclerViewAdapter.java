@@ -1,7 +1,7 @@
 package alphadevs.insyto_android.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,12 +18,12 @@ public class MyRecyclerViewAdapter extends RecyclerView
         .Adapter<MyRecyclerViewAdapter
         .DataObjectHolder> {
     private static String LOG_TAG = "MyRecyclerViewAdapter";
+    private Context mContext;
     private ArrayList<InsyteItemData> mDataset;
-    private static InsyteItemClickListener myClickListener;
+    private InsyteItemClickListener insyteItemClickListener;
 
-    public static class DataObjectHolder extends RecyclerView.ViewHolder
-            implements View
-            .OnClickListener {
+    public static class DataObjectHolder
+            extends RecyclerView.ViewHolder{
         TextView label;
         TextView dateTime;
         ImageView thumbnail;
@@ -33,22 +33,12 @@ public class MyRecyclerViewAdapter extends RecyclerView
             label = (TextView) itemView.findViewById(R.id.insyte_title);
             dateTime = (TextView) itemView.findViewById(R.id.insyte_description);
             thumbnail = (ImageView) itemView.findViewById(R.id.insyte_thumbnail);
-            Log.i(LOG_TAG, "Adding Listener");
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            myClickListener.onItemClick(getAdapterPosition(), v);
         }
     }
 
-    public void setOnItemClickListener(InsyteItemClickListener myClickListener) {
-        this.myClickListener = myClickListener;
-    }
-
-    public MyRecyclerViewAdapter(ArrayList<InsyteItemData> myDataset) {
-        mDataset = myDataset;
+    public MyRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener,ArrayList<InsyteItemData> myDataset) {
+        this.mDataset = myDataset;
+        this.insyteItemClickListener = insyteItemClickListener;
     }
 
     @Override
@@ -62,10 +52,17 @@ public class MyRecyclerViewAdapter extends RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(DataObjectHolder holder, int position) {
-        holder.label.setText(mDataset.get(position).getTitle());
-        holder.dateTime.setText(mDataset.get(position).getDescription());
+    public void onBindViewHolder(DataObjectHolder holder, final int position) {
+        final InsyteItemData insyteItem = mDataset.get(position);
+        holder.label.setText(insyteItem.getTitle());
+        holder.dateTime.setText(insyteItem.getDescription());
         holder.thumbnail.setImageResource(R.drawable.sahara_test); //TODO testing
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View v) {
+                                                   insyteItemClickListener.onClick(insyteItem.getId());
+                                               }
+                                           });
     }
 
     public void addItem(InsyteItemData dataObj, int index) {

@@ -2,26 +2,30 @@ package alphadevs.insyto_android;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.ListFragment;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.view.ViewGroup;
 
-import alphadevs.insyto_android.dummy.DummyContent;
+import java.util.ArrayList;
 
-/**
- * A fragment representing a list of Items.
- * <p/>
- * <p/>
- * Activities containing this fragment MUST implement the {@link OnFragmentInteractionListener}
- * interface.
- */
-public class InsyteFragmentList extends ListFragment {
+import alphadevs.insyto_android.adapter.MyRecyclerViewAdapter;
+import alphadevs.insyto_android.data.InsyteItemData;
+import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
+
+
+public class InsyteFragmentList extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+    protected RecyclerView mRecyclerView;
+    protected MyRecyclerViewAdapter mAdapter;
+    protected RecyclerView.LayoutManager mLayoutManager;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -54,10 +58,6 @@ public class InsyteFragmentList extends ListFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
-        // TODO: Change Adapter to display your content
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(getActivity(),
-                R.layout.insyte_item, android.R.id.text1, DummyContent.ITEMS));
     }
 
 
@@ -79,14 +79,47 @@ public class InsyteFragmentList extends ListFragment {
     }
 
     @Override
-    public void onListItemClick(ListView l, View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState)
+    {
+        View rootView = inflater.inflate(R.layout.insyte_list, container, false);
 
-        if (null != mListener) {
-            // Notify the active callbacks interface (the activity, if the
-            // fragment is attached to one) that an item has been selected.
-            mListener.onSelectItem(DummyContent.ITEMS.get(position).id);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.insyte_recycler_view);
+
+        mRecyclerView.setHasFixedSize(true);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new MyRecyclerViewAdapter(
+                new InsyteItemClickListenerImpl((OnInsyteListInteractionListener)getActivity()),
+                getDataSet());
+        mRecyclerView.setAdapter(mAdapter);
+
+        return rootView;
+    }
+
+    // TODO refactor all that
+    private static final String TEST_TEXT = "Cards present information to users with a consistent look and feel across different apps. This lesson shows you how to create cards in your Android Wear apps.\n" +
+            "\n" +
+            "The Wearable UI Library provides implementations of cards specifically designed for wearable devices. This library contains the CardFrame class, which wraps views inside a card-styled frame with a white background, rounded corners, and a light-drop shadow. A CardFrame instance can only contain one direct child, usually a layout manager, to which you can add other views to customize the content inside the card.\n" +
+            "\n" +
+            "You can add cards to your app in two ways:\n" +
+            "\n" +
+            "    Use or extend the CardFragment class.\n" +
+            "    Add a card inside a CardScrollView instance in your layout.\n" +
+            "\n" +
+            "Note: This lesson shows you how to add cards to Android Wear activities. Android notifications on wearable devices are also displayed as cards. For more information, see Adding Wearable Features to Notifications.";
+
+    private ArrayList<InsyteItemData> getDataSet() {
+        java.util.ArrayList results = new ArrayList<alphadevs.insyto_android.data.InsyteItemData>();
+        for (int index = 0; index < 20; index++) {
+            alphadevs.insyto_android.data.InsyteItemData obj = new alphadevs.insyto_android.data.InsyteItemData();
+            obj.setId("MyId#" + index);
+            obj.setTitle("Some Primary Text " + index);
+            obj.setDescription(index + TEST_TEXT);
+            obj.setThumbnail(1);// TODO what
+            results.add(index, obj);
         }
+        return results;
     }
 
     /**
@@ -100,7 +133,7 @@ public class InsyteFragmentList extends ListFragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnInsyteListInteractionListener {
-        public void onSelectItem(String id);
+        public void switchFragment(String id);
     }
 
 }

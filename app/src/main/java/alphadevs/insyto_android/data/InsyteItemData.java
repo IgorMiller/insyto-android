@@ -2,6 +2,7 @@ package alphadevs.insyto_android.data;
 
 
 public class InsyteItemData {
+    private String id;
     private String title;
     private String description;
     private int thumbnail;
@@ -28,5 +29,13 @@ public class InsyteItemData {
 
     public void setThumbnail(int thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

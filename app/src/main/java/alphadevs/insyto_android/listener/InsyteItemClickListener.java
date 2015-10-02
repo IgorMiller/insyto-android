@@ -1,7 +1,8 @@
 package alphadevs.insyto_android.listener;
 
-import android.view.View;
-
+/**
+ * Created by gorik on 10/2/15.
+ */
 public interface InsyteItemClickListener {
-    public void onItemClick(int position, View v);
+    void onClick(String isyteId);
 }
