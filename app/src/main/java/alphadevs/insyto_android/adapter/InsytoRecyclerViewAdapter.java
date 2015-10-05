@@ -14,10 +14,10 @@ import alphadevs.insyto_android.R;
 import alphadevs.insyto_android.data.InsyteItemData;
 import alphadevs.insyto_android.listener.InsyteItemClickListener;
 
-public class MyRecyclerViewAdapter extends RecyclerView
-        .Adapter<MyRecyclerViewAdapter
+public class InsytoRecyclerViewAdapter extends RecyclerView
+        .Adapter<InsytoRecyclerViewAdapter
         .DataObjectHolder> {
-    private static String LOG_TAG = "MyRecyclerViewAdapter";
+    private static String LOG_TAG = "InsytoRecyclerViewAdapter";
     private Context mContext;
     private ArrayList<InsyteItemData> mDataset;
     private InsyteItemClickListener insyteItemClickListener;
@@ -36,7 +36,7 @@ public class MyRecyclerViewAdapter extends RecyclerView
         }
     }
 
-    public MyRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener,ArrayList<InsyteItemData> myDataset) {
+    public InsytoRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener, ArrayList<InsyteItemData> myDataset) {
         this.mDataset = myDataset;
         this.insyteItemClickListener = insyteItemClickListener;
     }

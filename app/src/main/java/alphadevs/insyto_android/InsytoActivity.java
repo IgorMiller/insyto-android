@@ -13,7 +13,7 @@ import android.view.MenuItem;
 
 import java.util.ArrayList;
 
-import alphadevs.insyto_android.adapter.MyRecyclerViewAdapter;
+import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
 import alphadevs.insyto_android.data.InsyteItemData;
 
 public class InsytoActivity extends AppCompatActivity implements InsyteFragmentList.OnInsyteListInteractionListener{

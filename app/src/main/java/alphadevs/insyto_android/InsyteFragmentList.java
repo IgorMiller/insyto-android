@@ -11,7 +11,8 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import alphadevs.insyto_android.adapter.MyRecyclerViewAdapter;
+import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
+import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
 import alphadevs.insyto_android.data.InsyteItemData;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 
@@ -24,7 +25,7 @@ public class InsyteFragmentList extends Fragment {
     private static final String ARG_PARAM2 = "param2";
 
     protected RecyclerView mRecyclerView;
-    protected MyRecyclerViewAdapter mAdapter;
+    protected InsytoRecyclerViewAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
 
     // TODO: Rename and change types of parameters
@@ -89,7 +90,7 @@ public class InsyteFragmentList extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(
+        mAdapter = new InsytoRecyclerViewAdapter(
                 new InsyteItemClickListenerImpl((OnInsyteListInteractionListener)getActivity()),
                 getDataSet());
         mRecyclerView.setAdapter(mAdapter);
