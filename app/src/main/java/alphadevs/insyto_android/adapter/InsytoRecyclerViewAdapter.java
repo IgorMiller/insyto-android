@@ -24,20 +24,20 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
 
     public static class DataObjectHolder
             extends RecyclerView.ViewHolder{
-        TextView label;
-        TextView dateTime;
+        TextView title;
+        TextView description;
         ImageView thumbnail;
 
         public DataObjectHolder(View itemView) {
             super(itemView);
-            label = (TextView) itemView.findViewById(R.id.insyte_title);
-            dateTime = (TextView) itemView.findViewById(R.id.insyte_description);
+            title = (TextView) itemView.findViewById(R.id.insyte_title);
+            description = (TextView) itemView.findViewById(R.id.insyte_description);
             thumbnail = (ImageView) itemView.findViewById(R.id.insyte_thumbnail);
         }
     }
 
-    public InsytoRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener, ArrayList<InsyteItemData> myDataset) {
-        this.mDataset = myDataset;
+    public InsytoRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener, ArrayList<InsyteItemData> dataset) {
+        this.mDataset = dataset;
         this.insyteItemClickListener = insyteItemClickListener;
     }
 
@@ -54,13 +54,13 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
     @Override
     public void onBindViewHolder(DataObjectHolder holder, final int position) {
         final InsyteItemData insyteItem = mDataset.get(position);
-        holder.label.setText(insyteItem.getTitle());
-        holder.dateTime.setText(insyteItem.getDescription());
-        holder.thumbnail.setImageResource(R.drawable.sahara_test); //TODO testing
+        holder.title.setText(insyteItem.getTitle()); // TODO
+        holder.description.setText(insyteItem.getChuck().getJoke().replace("&quot;", "\""));
+        holder.thumbnail.setImageResource(R.drawable.chuck_norris); //TODO testing
         holder.itemView.setOnClickListener(new View.OnClickListener() {
                                                @Override
                                                public void onClick(View v) {
-                                                   insyteItemClickListener.onClick(insyteItem.getId());
+                                                   insyteItemClickListener.onClick(insyteItem.getChuck().getId());
                                                }
                                            });
     }

@@ -1,11 +1,17 @@
 package alphadevs.insyto_android.data;
 
 
+import com.google.gson.annotations.SerializedName;
+
 public class InsyteItemData {
     private String id;
     private String title;
     private String description;
     private int thumbnail;
+
+    private String type;
+    @SerializedName("value")
+    private ChuckNorrisItemData chuck; // TODO
 
     public String getTitle() {
         return title;
@@ -37,5 +43,21 @@ public class InsyteItemData {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public ChuckNorrisItemData getChuck() {
+        return chuck;
+    }
+
+    public void setChuck(ChuckNorrisItemData chuck) {
+        this.chuck = chuck;
     }
 }

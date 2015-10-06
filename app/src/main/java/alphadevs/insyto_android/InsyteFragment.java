@@ -23,7 +23,7 @@ public class InsyteFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     static final String ARG_INSYTE_ID= "id";
-    private static final String ARG_PARAM2 = "param2";
+    static final String ARG_INSYTE_TITLE = "param2";
 
     // TODO: Rename and change types of parameters
     private String mInsyteId;
@@ -55,7 +55,6 @@ public class InsyteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mInsyteId = getArguments().getString(ARG_INSYTE_ID);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
