@@ -175,10 +175,10 @@ public class InsyteFragmentList extends Fragment {
 
         @Override
         protected void onPostExecute(InsyteItemData result) {
-            mAdapter.addItem(result, 0);
+            mAdapter.addItem(result, mAdapter.getItemCount());
         }
 
-    } // end CallAPI
+    } // AsyncTask
 
     /**
      * This interface must be implemented by activities that contain this
