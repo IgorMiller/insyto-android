@@ -1,20 +1,10 @@
 package alphadevs.insyto_android;
 
-import android.app.AlertDialog;
-import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import java.util.ArrayList;
-
-import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
-import alphadevs.insyto_android.data.InsyteItemData;
 
 public class InsytoActivity extends AppCompatActivity implements InsyteFragmentList.OnInsyteListInteractionListener{
 
@@ -52,7 +42,7 @@ public class InsytoActivity extends AppCompatActivity implements InsyteFragmentL
     @Override
     public void switchFragment(String id)
     {
-        InsyteFragment insyteFragment = InsyteFragment.newInstance(id, null);
+        InsyteFragment insyteFragment = InsyteFragment.newInstance(id);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
