@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,12 @@ import java.util.ArrayList;
 
 import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
 import alphadevs.insyto_android.data.InsyteItemData;
+import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
+import alphadevs.insyto_android.helper.OnStartDragListener;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 
 
-public class InsyteFragmentList extends Fragment {
+public class InsyteFragmentList extends Fragment implements OnStartDragListener {
 
     private final static Gson gson = new Gson();
 
@@ -29,6 +32,7 @@ public class InsyteFragmentList extends Fragment {
     protected RecyclerView mRecyclerView;
     protected InsytoRecyclerViewAdapter mAdapter;
     protected RecyclerView.LayoutManager mLayoutManager;
+    private ItemTouchHelper mItemTouchHelper;
 
     private InsytoVolley iVolley = InsytoVolley.getInstance();
 
@@ -63,8 +67,14 @@ public class InsyteFragmentList extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new InsytoRecyclerViewAdapter(
                 new InsyteItemClickListenerImpl((OnInsyteListInteractionListener)getActivity()),
+                this,
                 new ArrayList<InsyteItemData>());
         mRecyclerView.setAdapter(mAdapter);
+
+
+        ItemTouchHelper.Callback callback = new InsyteItemTouchHelperCallback(mAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -112,6 +122,11 @@ public class InsyteFragmentList extends Fragment {
      */
     public interface OnInsyteListInteractionListener {
         void switchFragment(String id);
+    }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
     }
 
 }

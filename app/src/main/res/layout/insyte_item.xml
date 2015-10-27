@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/insyte_thumbnail"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="25px"
                 android:scaleType="fitCenter"
                 android:adjustViewBounds="true"/>
             <TextView
