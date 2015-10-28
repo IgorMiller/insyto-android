@@ -3,15 +3,17 @@ package alphadevs.insyto_android.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 public class InsyteItemData {
     private String id;
     private String title;
     private String description;
-    private int thumbnail;
+    private Date created_at;
+    private Date update_at;
 
-    private String type;
-    @SerializedName("value")
-    private ChuckNorrisItemData chuck; // TODO
+    public InsyteItemData() {
+    }
 
     public String getTitle() {
         return title;
@@ -29,14 +31,6 @@ public class InsyteItemData {
         this.description = description;
     }
 
-    public int getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(int thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
     public String getId() {
         return id;
     }
@@ -45,19 +39,19 @@ public class InsyteItemData {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public Date getCreatedAt() {
+        return created_at;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCreatedAt(Date created_at) {
+        this.created_at = created_at;
     }
 
-    public ChuckNorrisItemData getChuck() {
-        return chuck;
+    public Date getUpdateAt() {
+        return update_at;
     }
 
-    public void setChuck(ChuckNorrisItemData chuck) {
-        this.chuck = chuck;
+    public void setUpdateAt(Date update_at) {
+        this.update_at = update_at;
     }
 }

@@ -73,7 +73,7 @@ public class InsyteFragment extends Fragment {
         String url = "http://api.icndb.com/jokes/" + mInsyteId;
 
         // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -99,7 +99,7 @@ public class InsyteFragment extends Fragment {
         });
 
         // Add the request to the queue
-        iVolley.add(stringRequest);
+        iVolley.add(stringRequest);*/
 
 
 

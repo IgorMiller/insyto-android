@@ -12,7 +12,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import alphadevs.insyto_android.R;
 import alphadevs.insyto_android.data.InsyteItemData;
@@ -34,13 +36,11 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
             extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         TextView title;
         TextView description;
-        ImageView thumbnail;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.insyte_title);
             description = (TextView) itemView.findViewById(R.id.insyte_description);
-            thumbnail = (ImageView) itemView.findViewById(R.id.insyte_thumbnail);
         }
 
         @Override
@@ -74,16 +74,16 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
         final InsyteItemData insyteItem = mItems.get(position);
         holder.title.setText(insyteItem.getTitle()); // TODO
-        holder.description.setText(insyteItem.getChuck().getJoke().replace("&quot;", "\""));
-        holder.thumbnail.setImageResource(R.drawable.chuck_norris); //TODO testing
+        holder.description.setText(insyteItem.getDescription());
+        // TODO all these listeners
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                insyteItemClickListener.onClick(insyteItem.getChuck().getId());
+                insyteItemClickListener.onClick(insyteItem.getId());
             }
         });
         // Start a drag whenever the handle view it touched
-        holder.thumbnail.setOnTouchListener(new View.OnTouchListener() {
+        holder.title.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -97,6 +97,12 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
     public void addItem(InsyteItemData dataObj, int index) {
         mItems.add(index, dataObj);
         notifyItemInserted(index);
+    }
+
+    public void addAll(Collection<? extends InsyteItemData> items, int index)
+    {
+        mItems.addAll(index, items);
+        notifyItemRangeInserted(index, items.size());
     }
 
     public void deleteItem(int index) {

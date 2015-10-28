@@ -14,8 +14,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.List;
 
 import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
 import alphadevs.insyto_android.data.InsyteItemData;
@@ -26,7 +30,7 @@ import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 
 public class InsyteFragmentList extends Fragment implements OnStartDragListener {
 
-    private final static Gson gson = new Gson();
+    private final static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").create(); // TODO singleton pls
 
     private View rootView;
     protected RecyclerView mRecyclerView;
@@ -81,17 +85,18 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         // TESTING VOLLEY CHUCK JOKE
-        String url = "http://api.icndb.com/jokes/random";
+        String url = "http://10.0.2.2:3000/v1/insytes"; // TODO works only in emulator!!! (if it works)
         // 5 times
-        for (int i =0; i<5; i++) {
             // Request a string response
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+         /*   StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
 
-                            InsyteItemData insyteData = gson.fromJson(response, InsyteItemData.class);
-                            mAdapter.addItem(insyteData, mAdapter.getItemCount());
+                            Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
+                            List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
+                            mAdapter.addAll(insytesData, mAdapter.getItemCount());
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -106,8 +111,13 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
 
 
             // Add the request to the queue
-            iVolley.add(stringRequest);
-        }
+            iVolley.add(stringRequest);*/
+
+        // TODO faking data for the moment
+        String fakeData = "[{\"id\":1,\"title\":\"Hello world\",\"description\":\"Best course ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":2,\"title\":\"LOVE ROCK N ROLL\",\"description\":\"Best OF THE BEST ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null}]";
+        Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
+        List<InsyteItemData> insytesData = gson.fromJson(fakeData, listInsytesType);
+        mAdapter.addAll(insytesData, mAdapter.getItemCount());
     }
 
     /**
