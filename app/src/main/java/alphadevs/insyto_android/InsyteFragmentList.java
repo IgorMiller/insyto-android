@@ -26,6 +26,7 @@ import alphadevs.insyto_android.data.InsyteItemData;
 import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
 import alphadevs.insyto_android.helper.OnStartDragListener;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
+import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;
 
 
 public class InsyteFragmentList extends Fragment implements OnStartDragListener {
@@ -35,7 +36,7 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     private View rootView;
     protected RecyclerView mRecyclerView;
     protected InsytoRecyclerViewAdapter mAdapter;
-    protected RecyclerView.LayoutManager mLayoutManager;
+    protected LinearLayoutManager mLayoutManager;
     private ItemTouchHelper mItemTouchHelper;
 
     private InsytoVolley iVolley = InsytoVolley.getInstance();
@@ -75,6 +76,13 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
                 new ArrayList<InsyteItemData>());
         mRecyclerView.setAdapter(mAdapter);
 
+        mRecyclerView.addOnScrollListener(new RecyclerLoadMoreListener(mLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                loadMoreInsytes(current_page);
+            }
+        });
+
 
         ItemTouchHelper.Callback callback = new InsyteItemTouchHelperCallback(mAdapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
@@ -84,40 +92,44 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TESTING VOLLEY CHUCK JOKE
-        String url = "http://10.0.2.2:3000/v1/insytes"; // TODO works only in emulator!!! (if it works)
-        // 5 times
-            // Request a string response
-         /*   StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
 
-                            Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
-                            List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
-                            mAdapter.addAll(insytesData, mAdapter.getItemCount());
-
-                        }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-
-                    // Error handling
-                    System.out.println("Something went wrong!");
-                    error.printStackTrace();
-
-                }
-            });
-
-
-            // Add the request to the queue
-            iVolley.add(stringRequest);*/
-
+        loadMoreInsytes(1);
         // TODO faking data for the moment
-        String fakeData = "[{\"id\":1,\"title\":\"Hello world\",\"description\":\"Best course ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":2,\"title\":\"LOVE ROCK N ROLL\",\"description\":\"Best OF THE BEST ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null}]";
+        /*String fakeData = "[{\"id\":1,\"title\":\"Hello world\",\"description\":\"Best course ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":2,\"title\":\"LOVE ROCK N ROLL\",\"description\":\"Best OF THE BEST ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null}]";
         Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
         List<InsyteItemData> insytesData = gson.fromJson(fakeData, listInsytesType);
-        mAdapter.addAll(insytesData, mAdapter.getItemCount());
+        mAdapter.addAll(insytesData, mAdapter.getItemCount());*/
+    }
+
+    private void loadMoreInsytes(int page)
+    {
+        String url = "http://10.0.2.2:3000/v1/insytes?page="; // TODO works only in emulator!!! (if it works)
+
+        // Request a string response
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + page,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
+                        List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
+                        mAdapter.addAll(insytesData, mAdapter.getItemCount());
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+
+            }
+        });
+
+
+        // Add the request to the queue
+        iVolley.add(stringRequest);
     }
 
     /**
