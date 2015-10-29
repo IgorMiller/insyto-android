@@ -16,13 +16,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.List;
 
 import alphadevs.insyto_android.data.InsyteItemData;
 
 
 public class InsyteFragment extends Fragment {
     static final String ARG_INSYTE_ID= "id";
-    private static final Gson gson = new Gson();
+    private static final Gson gson = InsytoGsonBuilder.create();
     private String mInsyteId;
 
 
@@ -69,23 +73,26 @@ public class InsyteFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // TESTING VOLLEY CHUCK JOKE
-        String url = "http://api.icndb.com/jokes/" + mInsyteId;
+
+        loadInsyte();
+    }
+
+    private void loadInsyte()
+    {
+        String url = "http://10.0.2.2:3000/v1/insytes/"; // TODO works only in emulator!!! (if it works)
 
         // Request a string response
-        /*StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + mInsyteId,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
 
                         InsyteItemData insyteData = gson.fromJson(response, InsyteItemData.class);
                         TextView cardTitle = (TextView) rootView.findViewById(R.id.card_title);
-                        cardTitle.setText("Chuck Norris id:" + insyteData.getChuck().getId());
+                        cardTitle.setText(insyteData.getTitle());
 
                         TextView cardText = (TextView) rootView.findViewById(R.id.card_text);
-                        cardText.setText(insyteData.getChuck().getJoke());
-
-
+                        cardText.setText(insyteData.getDescription());
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -99,29 +106,6 @@ public class InsyteFragment extends Fragment {
         });
 
         // Add the request to the queue
-        iVolley.add(stringRequest);*/
-
-
-
-
-        // TESTING Volley for image loading
-        String urlImage = "http://i.imgur.com/Nwk25LA.jpg";
-        final ImageView cardImage = (ImageView) rootView.findViewById(R.id.card_image);
-
-        ImageRequest imgRequest = new ImageRequest(urlImage,
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap response) {
-                        cardImage.setImageBitmap(response);
-                    }
-                }, 0, 0, ImageView.ScaleType.FIT_XY, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                cardImage.setBackgroundColor(Color.parseColor("#ff0000"));
-                error.printStackTrace();
-            }
-        });
-
-        iVolley.add(imgRequest);
+        iVolley.add(stringRequest);
     }
 }

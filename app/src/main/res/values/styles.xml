@@ -2,6 +2,7 @@
 
     <color name="insyto_theme_white">#fafafa</color>
     <color name="insyto_orange">#F06544</color>
+    <color name="insyto_text">#333</color>
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/insyto_theme_white</item>

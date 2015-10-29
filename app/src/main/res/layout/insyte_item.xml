@@ -36,6 +36,20 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true" />
 
+            <TextView
+                android:id="@+id/insyte_author"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:layout_gravity="right|center_horizontal"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/insyto_text"
+                android:textSize="12sp"
+                android:layout_alignParentRight="true"
+                android:text="by Igor Miller"
+                 />
+
 
             <View
                 android:layout_width="match_parent"
@@ -54,7 +68,7 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="2dp"
                 android:alpha="0.8"
-                android:textColor="#333"
+                android:textColor="@color/insyto_text"
                 android:textSize="20sp"
                 android:layout_below="@+id/insyte_title"
                 android:layout_alignLeft="@id/insyte_title"

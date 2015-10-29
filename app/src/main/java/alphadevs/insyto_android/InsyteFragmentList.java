@@ -31,7 +31,7 @@ import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;
 
 public class InsyteFragmentList extends Fragment implements OnStartDragListener {
 
-    private final static Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").create(); // TODO singleton pls
+    private final static Gson gson = InsytoGsonBuilder.create();
 
     private View rootView;
     protected RecyclerView mRecyclerView;
@@ -39,7 +39,11 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     protected LinearLayoutManager mLayoutManager;
     private ItemTouchHelper mItemTouchHelper;
 
+    private ArrayList<InsyteItemData> insytesList = new ArrayList<InsyteItemData>();
+
     private InsytoVolley iVolley = InsytoVolley.getInstance();
+
+    private final static String INSYTES_LIST = "INSYTES_LIST";
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -59,6 +63,11 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     {
         rootView = inflater.inflate(R.layout.insyte_list, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
     }
 
     @Override
