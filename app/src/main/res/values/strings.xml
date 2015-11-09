@@ -4,7 +4,8 @@
     <string name="action_settings">Settings</string>
 
     <string name="create_button">Create insyte!</string>
-    <string name="title">intytle</string>
-    <string name="description">descrybe</string>
+    <string name="title_hint">intytle</string>
+    <string name="description_hint">descrybe</string>
+    <string name="content_hint">Add some content...</string>
     <string name="list_create_insyte_hint">Share an insyte!...</string>
 </resources>

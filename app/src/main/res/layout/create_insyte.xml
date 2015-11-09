@@ -1,49 +1,72 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="?android:windowBackground"
-    android:clickable="true"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:card_view="http://schemas.android.com/apk/res-auto"
+android:background="?android:windowBackground"
+android:clickable="true"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical">
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:id="@+id/edit_title"
-        android:hint="@string/title"
-        android:singleLine="false"
-        android:inputType="textCapSentences"/>
+<android.support.v7.widget.CardView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="@dimen/card_corner_radius"
+    android:layout_marginTop="5dp"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:layout_marginBottom="0dp"
+    card_view:cardBackgroundColor="@android:color/white"
+    card_view:cardElevation="5dp"
+    card_view:cardUseCompatPadding="true">
 
-    <EditText
+    <RelativeLayout
+        android:id="@+id/top_layout"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edit_title"
-        android:id="@+id/edit_description"
-        android:hint="@string/description"
-        android:singleLine="false"
-        android:inputType="textShortMessage"/>
+        android:layout_height="wrap_content">
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:id="@+id/edit_title"
+            android:hint="@string/title_hint"
+            android:singleLine="false"
+            android:inputType="textCapSentences"
+            android:textColorHint="@color/insyto_orange_trans"
+            android:textColor="@color/insyto_orange"/>
 
-    <EditText
-        android:layout_width="fill_parent"
-        android:layout_height="50dp"
-        android:layout_below="@+id/edit_description"
-        android:id="@+id/edit_content"
-        android:hint="Insyte the world..."
-        android:singleLine="false"
-        android:inputType="textMultiLine"/>
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_below="@+id/edit_title"
+            android:id="@+id/edit_description"
+            android:hint="@string/description_hint"
+            android:textColorHint="@color/insyto_text_trans"
+            android:textColor="@color/insyto_text"
+            android:singleLine="false"
+            android:inputType="textCapSentences"/>
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_description"
+            android:id="@+id/edit_content"
+            android:hint="@string/content_hint"
+            android:textColorHint="@color/insyto_text_trans"
+            android:textColor="@color/insyto_text"
+            android:singleLine="false"
+            android:inputType="textMultiLine|textCapSentences"/>
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/edit_content"
+        android:layout_gravity="center"
         android:background="@drawable/insyto_confirm_btn"
         style="@style/insyto_confirm_btn_text"
         android:id="@+id/create_insyte_btn"
         android:text="@string/create_button"
         android:textAllCaps="false" />
 
-</RelativeLayout>
+</LinearLayout>
