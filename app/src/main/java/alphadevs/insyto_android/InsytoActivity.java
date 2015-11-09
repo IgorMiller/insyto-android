@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class InsytoActivity extends AppCompatActivity implements InsyteFragmentList.OnInsyteListInteractionListener{
+public class InsytoActivity extends AppCompatActivity implements InsyteFragmentList.OnInsyteListInteractionListener, CreateInsyteFragment.CreateInsyteListener{
 
     private static String LOG_TAG = "InsytoActivity";
 
@@ -40,7 +40,7 @@ public class InsytoActivity extends AppCompatActivity implements InsyteFragmentL
     }
 
     @Override
-    public void switchFragment(String id)
+    public void replaceInsyteFragment(String id)
     {
         InsyteFragment insyteFragment = InsyteFragment.newInstance(id);
 
@@ -53,5 +53,10 @@ public class InsytoActivity extends AppCompatActivity implements InsyteFragmentL
 
         // Commit the transaction
         transaction.commit();
+    }
+
+    @Override
+    public void previousFragment() {
+        getFragmentManager().popBackStack();
     }
 }

@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?android:windowBackground"
+    android:clickable="true"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:id="@+id/edit_title"
+        android:hint="@string/title"
+        android:singleLine="false"
+        android:inputType="textCapSentences"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edit_title"
+        android:id="@+id/edit_description"
+        android:hint="@string/description"
+        android:singleLine="false"
+        android:inputType="textShortMessage"/>
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/edit_description"
+        android:id="@+id/edit_content"
+        android:hint="Insyte the world..."
+        android:singleLine="false"
+        android:inputType="textMultiLine"/>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_content"
+        android:background="@drawable/insyto_confirm_btn"
+        style="@style/insyto_confirm_btn_text"
+        android:id="@+id/create_insyte_btn"
+        android:text="@string/create_button"
+        android:textAllCaps="false" />
+
+</RelativeLayout>

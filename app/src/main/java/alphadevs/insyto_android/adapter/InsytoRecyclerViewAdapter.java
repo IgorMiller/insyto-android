@@ -2,25 +2,20 @@ package alphadevs.insyto_android.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import alphadevs.insyto_android.R;
 import alphadevs.insyto_android.data.InsyteItemData;
 import alphadevs.insyto_android.helper.ItemTouchHelperAdapter;
 import alphadevs.insyto_android.helper.ItemTouchHelperViewHolder;
-import alphadevs.insyto_android.helper.OnStartDragListener;
 import alphadevs.insyto_android.listener.InsyteItemClickListener;
 
 public class InsytoRecyclerViewAdapter extends RecyclerView
@@ -29,8 +24,6 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
     private Context mContext;
     private ArrayList<InsyteItemData> mItems;
     private InsyteItemClickListener insyteItemClickListener;
-
-    private final OnStartDragListener mDragStartListener;
 
     public static class ItemViewHolder
             extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
@@ -54,9 +47,8 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         }
     }
 
-    public InsytoRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener, OnStartDragListener dragStartListener, ArrayList<InsyteItemData> dataset) {
+    public InsytoRecyclerViewAdapter(InsyteItemClickListener insyteItemClickListener, ArrayList<InsyteItemData> dataset) {
         this.mItems = dataset;
-        mDragStartListener = dragStartListener;
         this.insyteItemClickListener = insyteItemClickListener;
     }
 
@@ -80,16 +72,6 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
             @Override
             public void onClick(View v) {
                 insyteItemClickListener.onClick(insyteItem.getId());
-            }
-        });
-        // Start a drag whenever the handle view it touched
-        holder.title.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    mDragStartListener.onStartDrag(holder);
-                }
-                return false;
             }
         });
     }

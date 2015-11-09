@@ -2,19 +2,21 @@ package alphadevs.insyto_android;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
@@ -24,12 +26,11 @@ import java.util.List;
 import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
 import alphadevs.insyto_android.data.InsyteItemData;
 import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
-import alphadevs.insyto_android.helper.OnStartDragListener;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;
 
 
-public class InsyteFragmentList extends Fragment implements OnStartDragListener {
+public class InsyteFragmentList extends Fragment {
 
     private final static Gson gson = InsytoGsonBuilder.create();
 
@@ -62,6 +63,24 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
                              Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.insyte_list, container, false);
+        TextView shareInsyte = (TextView) rootView.findViewById(R.id.share_insyte_edit_list);
+        shareInsyte.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                CreateInsyteFragment createFragment = CreateInsyteFragment.newInstance();
+
+                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                // Replace whatever is in the fragment_container view with this fragment,
+                // and add the transaction to the back stack so the user can navigate back
+                transaction.replace(R.id.insyte_list, createFragment);
+                transaction.addToBackStack(null);
+
+                // Commit the transaction
+                transaction.commit();
+            }
+        });
         return rootView;
     }
 
@@ -81,7 +100,6 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new InsytoRecyclerViewAdapter(
                 new InsyteItemClickListenerImpl((OnInsyteListInteractionListener)getActivity()),
-                this,
                 new ArrayList<InsyteItemData>());
         mRecyclerView.setAdapter(mAdapter);
 
@@ -102,12 +120,12 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        loadMoreInsytes(1);
+        //  loadMoreInsytes(1);
         // TODO faking data for the moment
-        /*String fakeData = "[{\"id\":1,\"title\":\"Hello world\",\"description\":\"Best course ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":2,\"title\":\"LOVE ROCK N ROLL\",\"description\":\"Best OF THE BEST ever\",\"created_at\":\"2011-11-11T00:00:00.000Z\",\"updated_at\":\"2011-11-11T00:00:00.000Z\",\"media_id\":null,\"media_type\":null}]";
+        String fakeData = "[{\"id\":51,\"title\":\"Insyte 49\",\"description\":\"I love Rock n Roll!!! 49\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":50,\"title\":\"Insyte 48\",\"description\":\"I love Rock n Roll!!! 48\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":49,\"title\":\"Insyte 47\",\"description\":\"I love Rock n Roll!!! 47\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":48,\"title\":\"Insyte 46\",\"description\":\"I love Rock n Roll!!! 46\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":47,\"title\":\"Insyte 45\",\"description\":\"I love Rock n Roll!!! 45\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":46,\"title\":\"Insyte 44\",\"description\":\"I love Rock n Roll!!! 44\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":45,\"title\":\"Insyte 43\",\"description\":\"I love Rock n Roll!!! 43\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":44,\"title\":\"Insyte 42\",\"description\":\"I love Rock n Roll!!! 42\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":43,\"title\":\"Insyte 41\",\"description\":\"I love Rock n Roll!!! 41\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":42,\"title\":\"Insyte 40\",\"description\":\"I love Rock n Roll!!! 40\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null}]";
         Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
         List<InsyteItemData> insytesData = gson.fromJson(fakeData, listInsytesType);
-        mAdapter.addAll(insytesData, mAdapter.getItemCount());*/
+        mAdapter.addAll(insytesData, mAdapter.getItemCount());
     }
 
     private void loadMoreInsytes(int page)
@@ -152,12 +170,6 @@ public class InsyteFragmentList extends Fragment implements OnStartDragListener 
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnInsyteListInteractionListener {
-        void switchFragment(String id);
+        void replaceInsyteFragment(String id);
     }
-
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        mItemTouchHelper.startDrag(viewHolder);
-    }
-
 }
