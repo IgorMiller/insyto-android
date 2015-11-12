@@ -1,4 +1,4 @@
-package alphadevs.insyto_android.data;
+package alphadevs.insyto_android.models;
 
 
 import com.google.gson.annotations.SerializedName;
@@ -10,10 +10,7 @@ public class InsyteItemData {
     private String title;
     private String description;
     private Date created_at;
-    private Date update_at;
-
-    public InsyteItemData() {
-    }
+    private Date updated_at;
 
     public String getTitle() {
         return title;
@@ -47,11 +44,11 @@ public class InsyteItemData {
         this.created_at = created_at;
     }
 
-    public Date getUpdateAt() {
-        return update_at;
+    public Date getUpdatedAt() {
+        return updated_at;
     }
 
-    public void setUpdateAt(Date update_at) {
-        this.update_at = update_at;
+    public void setUpdatedAt(Date updated_at) {
+        this.updated_at = updated_at;
     }
 }

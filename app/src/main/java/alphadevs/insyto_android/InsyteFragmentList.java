@@ -9,7 +9,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import alphadevs.insyto_android.adapter.InsytoRecyclerViewAdapter;
-import alphadevs.insyto_android.data.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteItemData;
 import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;

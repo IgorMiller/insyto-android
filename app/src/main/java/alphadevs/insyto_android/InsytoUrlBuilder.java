@@ -16,6 +16,11 @@ public class InsytoUrlBuilder {
         return getInsytesBuilder().appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb)).build().toString();
     }
 
+    public static String getInsytesUrl()
+    {
+        return getInsytesBuilder().build().toString();
+    }
+
     public static String getInsyteUrl(String id)
     {
         return getInsytesBuilder().appendEncodedPath(id).build().toString();

@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 
 import alphadevs.insyto_android.R;
-import alphadevs.insyto_android.data.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteItemData;
 import alphadevs.insyto_android.helper.ItemTouchHelperAdapter;
 import alphadevs.insyto_android.helper.ItemTouchHelperViewHolder;
 import alphadevs.insyto_android.listener.InsyteItemClickListener;

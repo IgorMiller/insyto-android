@@ -6,19 +6,24 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
-import alphadevs.insyto_android.data.InsyteItemData;
+import java.util.HashMap;
+import java.util.Map;
+
+import alphadevs.insyto_android.models.InsyteItemData;
+import alphadevs.insyto_android.models.PostInsyteItem;
 
 
 public class CreateInsyteFragment extends Fragment {
@@ -86,23 +91,14 @@ public class CreateInsyteFragment extends Fragment {
 
     private void postInsyte()
     {
-        // TODO
-        /*String url = "http://10.0.2.2:3000/v1/insytes/"; // TODO works only in emulator!!! (if it works)
-
         // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+        StringRequest stringRequest = new StringRequest(Request.Method.POST,
+                InsytoUrlBuilder.getInsytesUrl(),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
-                        InsyteItemData insyteData = gson.fromJson(response, InsyteItemData.class);
-                        TextView cardTitle = (TextView) rootView.findViewById(R.id.card_title);
-                        cardTitle.setText(insyteData.getTitle());
-
-                        TextView cardText = (TextView) rootView.findViewById(R.id.card_text);
-                        cardText.setText(insyteData.getDescription());
-
-                        getActivity().getSupportFragmentManager().popBackStack(); // Return to previous fragment
+                        // Return to previous fragment
+                        getActivity().getSupportFragmentManager().popBackStack();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -112,11 +108,34 @@ public class CreateInsyteFragment extends Fragment {
                 System.out.println("Something went wrong!");
                 error.printStackTrace();
 
+                toastAnError();
             }
-        });
+        }){
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                InsyteItemData insyteData = new InsyteItemData();
+                insyteData.setTitle(title.getText().toString());
+                insyteData.setDescription(description.getText().toString());
+                PostInsyteItem postInsyte = new PostInsyteItem(insyteData);
+                String jsonBody = gson.toJson(postInsyte);
+                return jsonBody.getBytes();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> params = new HashMap<String, String>();
+                params.put("Content-Type","application/json");
+                return params;
+            }
+        };;
 
         // Add the request to the queue
-        iVolley.add(stringRequest);*/
+        iVolley.add(stringRequest);
+    }
+
+    private void toastAnError()
+    {
+        Toast.makeText(this.getContext(), "Error while creating insyte", Toast.LENGTH_SHORT).show();
     }
 
     /**
