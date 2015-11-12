@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -79,10 +80,9 @@ public class InsyteFragment extends Fragment {
 
     private void loadInsyte()
     {
-        String url = "http://10.0.2.2:3000/v1/insytes/"; // TODO works only in emulator!!! (if it works)
-
         // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + mInsyteId,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                InsytoUrlBuilder.getInsyteUrl(mInsyteId),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -102,10 +102,16 @@ public class InsyteFragment extends Fragment {
                 System.out.println("Something went wrong!");
                 error.printStackTrace();
 
+                toastAnError();
             }
         });
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+    }
+
+    private void toastAnError()
+    {
+        Toast.makeText(this.getContext(), "Error getting insyte", Toast.LENGTH_SHORT).show();
     }
 }

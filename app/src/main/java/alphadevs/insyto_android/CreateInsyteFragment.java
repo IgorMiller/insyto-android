@@ -86,6 +86,7 @@ public class CreateInsyteFragment extends Fragment {
 
     private void postInsyte()
     {
+        // TODO
         /*String url = "http://10.0.2.2:3000/v1/insytes/"; // TODO works only in emulator!!! (if it works)
 
         // Request a string response

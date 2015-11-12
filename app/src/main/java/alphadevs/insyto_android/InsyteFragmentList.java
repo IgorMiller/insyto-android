@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -120,20 +121,19 @@ public class InsyteFragmentList extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        //  loadMoreInsytes(1);
+        loadMoreInsytes(1);
         // TODO faking data for the moment
-        String fakeData = "[{\"id\":51,\"title\":\"Insyte 49\",\"description\":\"I love Rock n Roll!!! 49\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":50,\"title\":\"Insyte 48\",\"description\":\"I love Rock n Roll!!! 48\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":49,\"title\":\"Insyte 47\",\"description\":\"I love Rock n Roll!!! 47\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":48,\"title\":\"Insyte 46\",\"description\":\"I love Rock n Roll!!! 46\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":47,\"title\":\"Insyte 45\",\"description\":\"I love Rock n Roll!!! 45\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":46,\"title\":\"Insyte 44\",\"description\":\"I love Rock n Roll!!! 44\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":45,\"title\":\"Insyte 43\",\"description\":\"I love Rock n Roll!!! 43\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":44,\"title\":\"Insyte 42\",\"description\":\"I love Rock n Roll!!! 42\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":43,\"title\":\"Insyte 41\",\"description\":\"I love Rock n Roll!!! 41\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":42,\"title\":\"Insyte 40\",\"description\":\"I love Rock n Roll!!! 40\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null}]";
+        /*String fakeData = "[{\"id\":51,\"title\":\"Insyte 49\",\"description\":\"I love Rock n Roll!!! 49\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":50,\"title\":\"Insyte 48\",\"description\":\"I love Rock n Roll!!! 48\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":49,\"title\":\"Insyte 47\",\"description\":\"I love Rock n Roll!!! 47\",\"created_at\":\"2015-10-29T16:49:33.000Z\",\"updated_at\":\"2015-10-29T16:49:33.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":48,\"title\":\"Insyte 46\",\"description\":\"I love Rock n Roll!!! 46\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":47,\"title\":\"Insyte 45\",\"description\":\"I love Rock n Roll!!! 45\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":46,\"title\":\"Insyte 44\",\"description\":\"I love Rock n Roll!!! 44\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":45,\"title\":\"Insyte 43\",\"description\":\"I love Rock n Roll!!! 43\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":44,\"title\":\"Insyte 42\",\"description\":\"I love Rock n Roll!!! 42\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":43,\"title\":\"Insyte 41\",\"description\":\"I love Rock n Roll!!! 41\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null},{\"id\":42,\"title\":\"Insyte 40\",\"description\":\"I love Rock n Roll!!! 40\",\"created_at\":\"2015-10-29T16:49:32.000Z\",\"updated_at\":\"2015-10-29T16:49:32.000Z\",\"media_id\":null,\"media_type\":null}]";
         Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
         List<InsyteItemData> insytesData = gson.fromJson(fakeData, listInsytesType);
-        mAdapter.addAll(insytesData, mAdapter.getItemCount());
+        mAdapter.addAll(insytesData, mAdapter.getItemCount());*/
     }
 
     private void loadMoreInsytes(int page)
     {
-        String url = "http://10.0.2.2:3000/v1/insytes?page="; // TODO works only in emulator!!! (if it works)
-
         // Request a string response
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url + page,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                InsytoUrlBuilder.getInsytesUrl(page),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -151,12 +151,18 @@ public class InsyteFragmentList extends Fragment {
                 System.out.println("Something went wrong!");
                 error.printStackTrace();
 
+                toastAnError();
             }
         });
 
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+    }
+
+    private void toastAnError()
+    {
+        Toast.makeText(this.getContext(), "Could not get insytes", Toast.LENGTH_SHORT).show();
     }
 
     /**
