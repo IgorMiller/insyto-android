@@ -108,6 +108,16 @@ public class InsyteFragmentList extends Fragment {
             public void onLoadMore(int current_page) {
                 loadMoreInsytes(current_page);
             }
+
+            @Override
+            public void onScrolledToTop() {
+                loadNewerInsytes();
+            }
+
+            @Override
+            public void onScrolledToBottom() {
+
+            }
         });
 
 
@@ -140,6 +150,38 @@ public class InsyteFragmentList extends Fragment {
                         Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
                         List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
                         mAdapter.addAll(insytesData, mAdapter.getItemCount());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Error handling
+                System.out.println("Something went wrong!");
+                error.printStackTrace();
+
+                toastAnError();
+            }
+        });
+
+
+        // Add the request to the queue
+        iVolley.add(stringRequest);
+    }
+
+    private void loadNewerInsytes()
+    {
+        long secondsToLive = mAdapter.getFirstItemCreatedDate().getTime()/1000 + 1;
+        System.out.println(secondsToLive);
+        // Request a string response
+        StringRequest stringRequest = new StringRequest(Request.Method.GET,
+                InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
+                        List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
+                        mAdapter.addAll(insytesData, 0);
 
                     }
                 }, new Response.ErrorListener() {

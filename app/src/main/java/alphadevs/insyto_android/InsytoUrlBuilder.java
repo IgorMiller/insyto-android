@@ -6,14 +6,20 @@ import android.net.Uri;
  * Use it to create required URLs for insyto.
  */
 public class InsytoUrlBuilder {
-    private final static String BASE_URL = "http://80ea1dcb.ngrok.io"; // TODO change per config
+    private final static String BASE_URL = "http://7a827968.ngrok.io"; // TODO change per config
     private final static String API_V1 = "v1";
     private final static String INSYTES = "insytes";
     private final static String PAGE_PARAM = "page";
+    private final static String NEWER_PARAM = "newer";
 
     public static String getInsytesUrl(int pageNb)
     {
         return getInsytesBuilder().appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb)).build().toString();
+    }
+
+    public static String getNewerInsytesUrl(long seconds)
+    {
+        return getInsytesBuilder().appendQueryParameter(NEWER_PARAM, Long.toString(seconds)).build().toString();
     }
 
     public static String getInsytesUrl()

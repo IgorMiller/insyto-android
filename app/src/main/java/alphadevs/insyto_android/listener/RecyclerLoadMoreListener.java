@@ -27,6 +27,12 @@ public abstract class RecyclerLoadMoreListener extends RecyclerView.OnScrollList
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
 
+        if (!recyclerView.canScrollVertically(-1)) {
+            onScrolledToTop();
+        } else if (!recyclerView.canScrollVertically(1)) {
+            onScrolledToBottom();
+        }
+
         visibleItemCount = recyclerView.getChildCount();
         totalItemCount = mLinearLayoutManager.getItemCount();
         firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
@@ -51,4 +57,8 @@ public abstract class RecyclerLoadMoreListener extends RecyclerView.OnScrollList
     }
 
     public abstract void onLoadMore(int current_page);
+
+    public abstract void onScrolledToTop();
+
+    public abstract void onScrolledToBottom();
 }

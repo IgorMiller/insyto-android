@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 
 import alphadevs.insyto_android.R;
 import alphadevs.insyto_android.models.InsyteItemData;
@@ -91,6 +92,12 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         mItems.remove(index);
         notifyItemRemoved(index);
     }
+
+    public Date getFirstItemCreatedDate()
+    {
+        return mItems.get(0).getCreatedAt();
+    }
+
 
     @Override
     public int getItemCount() {
