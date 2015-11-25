@@ -25,6 +25,6 @@ public class InsytoGsonBuilder {
 
     public static Gson create()
     {
-        return new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create(); // TODO change to 2.5 n remove the date format
+        return new GsonBuilder().create();
     }
 }
