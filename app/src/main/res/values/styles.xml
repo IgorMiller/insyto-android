@@ -5,10 +5,12 @@
     <color name="insyto_orange_trans">#b4f06544</color>
     <color name="insyto_text">#333</color>
     <color name="insyto_text_trans">#b4333333</color>
+
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@color/insyto_theme_white</item>
         <item name="android:colorBackground">@color/insyto_theme_white</item>
+        <item name="colorAccent">@color/insyto_orange</item>
         <!-- Customize your theme here. -->
     </style>
 
