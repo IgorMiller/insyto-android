@@ -8,4 +8,8 @@
     <string name="description_hint">descrybe</string>
     <string name="content_hint">Add some content...</string>
     <string name="list_create_insyte_hint">Share an insyte!...</string>
+    <string name="title_activity_insyto_activity_v2">InsytoActivityV2</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>

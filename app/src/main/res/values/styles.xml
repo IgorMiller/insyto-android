@@ -12,13 +12,17 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="insyto_confirm_btn_text" >
-        <item name="android:layout_width" >fill_parent</item>
-        <item name="android:layout_height" >wrap_content</item>
-        <item name="android:textColor" >#ffffff</item>
-        <item name="android:gravity" >center</item>
-        <item name="android:layout_margin" >3dp</item>
-        <item name="android:textSize" >30dp</item>
-        <item name="android:textStyle" >bold</item>
+    <style name="insyto_confirm_btn_text">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:textSize">30dp</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

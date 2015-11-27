@@ -14,6 +14,7 @@ public class InsyteItemData {
     private Integer category_id;
     private String category_name;
 
+
     public String getTitle() {
         return title;
     }

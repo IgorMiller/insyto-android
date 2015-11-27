@@ -1,6 +1,8 @@
 package alphadevs.insyto_android;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -63,24 +65,7 @@ public class InsyteFragmentList extends Fragment {
                              Bundle savedInstanceState)
     {
         rootView = inflater.inflate(R.layout.insyte_list, container, false);
-        TextView shareInsyte = (TextView) rootView.findViewById(R.id.share_insyte_edit_list);
-        shareInsyte.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                CreateInsyteFragment createFragment = CreateInsyteFragment.newInstance();
-
-                FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-
-                // Replace whatever is in the fragment_container view with this fragment,
-                // and add the transaction to the back stack so the user can navigate back
-                transaction.replace(R.id.insyte_list, createFragment);
-                transaction.addToBackStack(null);
-
-                // Commit the transaction
-                transaction.commit();
-            }
-        });
         return rootView;
     }
 
