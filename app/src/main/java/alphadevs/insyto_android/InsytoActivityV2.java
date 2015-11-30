@@ -23,6 +23,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.Arrays;
+import java.util.List;
+
 import alphadevs.insyto_android.preferences.MainPrefs;
 
 public class InsytoActivityV2 extends AppCompatActivity
@@ -160,11 +163,15 @@ public class InsytoActivityV2 extends AppCompatActivity
 
             public void onProviderDisabled(String provider) {}
         };
-
+        List<String> locationProviders = locationManager.getAllProviders();
         // Register the listener with the Location Manager to receive location updates
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+            if (locationProviders.contains("network")) {
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
+            }
+            if (locationProviders.contains("gps")) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+            }
         } catch (SecurityException e) {
             Toast.makeText(getApplicationContext(), "Insufficient permissions to request location", Toast.LENGTH_LONG).show();
             e.printStackTrace();
