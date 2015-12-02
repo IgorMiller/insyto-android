@@ -15,11 +15,12 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import alphadevs.insyto_android.models.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteMediaText;
 
 
 public class InsyteFragment extends Fragment {
     static final String ARG_INSYTE_ID= "id";
-    private static final Gson gson = InsytoGsonBuilder.create();
+    private static final Gson gson = InsytoGson.getInstance();
     private Integer mInsyteId;
 
 
@@ -83,8 +84,13 @@ public class InsyteFragment extends Fragment {
                         TextView cardTitle = (TextView) rootView.findViewById(R.id.card_title);
                         cardTitle.setText(insyteData.getTitle());
 
-                        TextView cardText = (TextView) rootView.findViewById(R.id.card_text);
-                        cardText.setText(insyteData.getDescription());
+                        TextView cardDescription = (TextView) rootView.findViewById(R.id.card_description);
+                        cardDescription.setText(insyteData.getDescription());
+
+                        TextView cardContent = (TextView) rootView.findViewById(R.id.card_content);
+                        InsyteMediaText mediaText = (InsyteMediaText) insyteData.getMedia();
+                        cardContent.setText(mediaText.getContent());
+
                     }
                 }, new Response.ErrorListener() {
             @Override

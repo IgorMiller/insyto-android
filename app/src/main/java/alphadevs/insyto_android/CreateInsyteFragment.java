@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -28,7 +27,7 @@ import alphadevs.insyto_android.models.PostInsyteItem;
 
 
 public class CreateInsyteFragment extends Fragment {
-    private static final Gson gson = InsytoGsonBuilder.create();
+    private static final Gson gson = InsytoGson.getInstance();
 
 
     private EditText title, description, content;
@@ -120,7 +119,7 @@ public class CreateInsyteFragment extends Fragment {
 
                 insyteData.setMedia_type("Text"); // TODO generic
                 insyteData.setCategory_id(1);// TODO category
-                insyteData.setMedia(new InsyteMediaText().withContent(content.getText().toString()));// TODO support other media types
+                insyteData.setMedia_attributes(new InsyteMediaText().withContent(content.getText().toString()));// TODO support other media types
 
                 PostInsyteItem postInsyte = new PostInsyteItem(insyteData);
                 String jsonBody = gson.toJson(postInsyte);

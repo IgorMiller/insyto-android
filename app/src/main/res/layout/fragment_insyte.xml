@@ -34,7 +34,14 @@
                     android:textStyle="bold"/>
 
                 <TextView
-                    android:id="@+id/card_text"
+                    android:id="@+id/card_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textColor="@color/insyto_text"
+                    android:textSize="16sp"/>
+
+                <TextView
+                    android:id="@+id/card_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:textColor="@color/insyto_text"

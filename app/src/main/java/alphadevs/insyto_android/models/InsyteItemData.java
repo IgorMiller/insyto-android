@@ -14,8 +14,8 @@ public class InsyteItemData {
     private Integer category_id;
     private String category_name;
     private String media_type;
-    @SerializedName("media_attributes")
-    private InsyteMedia media;
+    private InsyteMedia media; // For GET method
+    private InsyteMedia media_attributes; // For POST method
 
 
     public String getTitle() {
@@ -88,5 +88,13 @@ public class InsyteItemData {
 
     public void setMedia(InsyteMedia media) {
         this.media = media;
+    }
+
+    public InsyteMedia getMedia_attributes() {
+        return media_attributes;
+    }
+
+    public void setMedia_attributes(InsyteMedia media_attributes) {
+        this.media_attributes = media_attributes;
     }
 }

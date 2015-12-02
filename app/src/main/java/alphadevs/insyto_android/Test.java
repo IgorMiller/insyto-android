@@ -19,7 +19,7 @@ public class Test {
                 "  \"media_id\": null,\n" +
                 "  \"media_type\": null\n" +
                 "}";
-        Gson gson = InsytoGsonBuilder.create();
+        Gson gson = InsytoGson.getInstance();
         InsyteItemData item = gson.fromJson(insyto_json, InsyteItemData.class);
         System.out.println(item.getCreatedAt());
         System.out.println(item.getCreatedAt().getTime());
