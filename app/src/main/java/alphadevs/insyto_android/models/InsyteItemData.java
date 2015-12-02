@@ -17,6 +17,7 @@ public class InsyteItemData {
     @SerializedName("media_attributes")
     private InsyteMedia media;
 
+
     public String getTitle() {
         return title;
     }
