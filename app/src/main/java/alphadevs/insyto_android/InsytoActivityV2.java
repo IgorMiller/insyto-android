@@ -2,6 +2,7 @@ package alphadevs.insyto_android;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -112,9 +113,7 @@ public class InsytoActivityV2 extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_nearby) {
-            item.setChecked(!item.isChecked());
-            navNearby(item.isChecked());
+        if (id == R.id.action_settings) {
             return true;
         }
 
@@ -134,11 +133,16 @@ public class InsytoActivityV2 extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
+       // } else if (id == R.id.nav_nearby) {
+         //   item.setChecked(!item.isChecked());
+           // navNearby(item.isChecked());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
