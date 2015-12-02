@@ -47,7 +47,7 @@
                 android:textColor="@color/insyto_text"
                 android:textSize="12sp"
                 android:layout_below="@+id/insyte_title"
-                android:text="by Igor Miller TODO"
+                android:text=""
                 />
 
             <View
@@ -88,7 +88,7 @@
                 android:textColor="@color/insyto_text"
                 android:textSize="14sp"
                 android:layout_below="@+id/insyte_description"
-                android:text="History TODO"
+                android:text="No category"
                 />
 
         </RelativeLayout>
