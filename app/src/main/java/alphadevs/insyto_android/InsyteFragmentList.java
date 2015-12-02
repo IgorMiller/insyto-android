@@ -27,6 +27,7 @@ import alphadevs.insyto_android.models.InsyteItemData;
 import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;
+import alphadevs.insyto_android.preferences.MainPrefs;
 
 
 public class InsyteFragmentList extends Fragment {
@@ -140,18 +141,22 @@ public class InsyteFragmentList extends Fragment {
 
         loadMoreInsytes(1);
         // TODO faking data for the moment
-	/*
+        /*
         String fakeData = "[{\"id\":101,\"title\":\"FAKE DATA!!!\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\",\"media_id\":7,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\"}},{\"id\":100,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\",\"media_id\":6,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":6,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\"}},{\"id\":99,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\",\"media_id\":5,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":5,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\"}},{\"id\":98,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\",\"media_id\":4,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":4,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\"}},{\"id\":97,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\",\"media_id\":7,\"media_type\":\"Text\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"content\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\"}}]";
-        /*String fakeData = "[{\"id\":101,\"title\":\"FAKE DATA!!!\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\",\"media_id\":7,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\"}},{\"id\":100,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\",\"media_id\":6,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":6,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\"}},{\"id\":99,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\",\"media_id\":5,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":5,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\"}},{\"id\":98,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\",\"media_id\":4,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":4,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\"}},{\"id\":97,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\",\"media_id\":7,\"media_type\":\"Text\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"content\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\"}}]";
         Type listInsytesType = new TypeToken<List<InsyteItemData>>() {}.getType();
         List<InsyteItemData> insytesData = gson.fromJson(fakeData, listInsytesType);
-        mAdapter.addAll(insytesData, mAdapter.getItemCount());*/
+        mAdapter.addAll(insytesData, mAdapter.getItemCount());
+        //*/
     }
 
     private void loadMoreInsytes(int page) {
         // Request a string response
+        MainPrefs prefs = new MainPrefs(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                InsytoUrlBuilder.getInsytesUrl(page),
+                (prefs.getNearbyActive())
+                        ? InsytoUrlBuilder.getInsytesUrlGPS(page,
+                                prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                        : InsytoUrlBuilder.getInsytesUrl(page),
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -178,14 +183,19 @@ public class InsyteFragmentList extends Fragment {
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+        System.out.println(stringRequest.getUrl());
     }
 
     private void loadNewerInsytes() {
         long secondsToLive = mAdapter.getFirstItemCreatedDate().getTime() / 1000 + 1;
         System.out.println(secondsToLive);
+        MainPrefs prefs = new MainPrefs(getContext());
         // Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
+                (prefs.getNearbyActive())
+                        ? InsytoUrlBuilder.getNewerInsytesUrlGPS(secondsToLive,
+                        prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                        : InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -211,6 +221,7 @@ public class InsyteFragmentList extends Fragment {
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+        System.out.println(stringRequest.getUrl());
     }
 
     private void toastAnError() {
