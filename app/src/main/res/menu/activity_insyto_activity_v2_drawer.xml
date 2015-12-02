@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="all">
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
@@ -18,10 +18,14 @@
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
             android:title="Tools" />
+        <!--
         <item
             android:id="@+id/nav_nearby"
             android:icon="@android:drawable/ic_dialog_map"
-            android:title="Near by" />
+            android:title="Near by"
+            android:checkable="true"
+            android:checked="false" />
+            -->
     </group>
 
     <item android:title="Communicate">

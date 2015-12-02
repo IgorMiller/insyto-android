@@ -33,6 +33,8 @@ public class InsytoActivityV2 extends AppCompatActivity
             InsyteFragmentList.OnInsyteListInteractionListener,
             CreateInsyteFragment.CreateInsyteListener {
 
+    private LocationListener locationListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,7 +112,9 @@ public class InsytoActivityV2 extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_nearby) {
+            item.setChecked(!item.isChecked());
+            navNearby(item.isChecked());
             return true;
         }
 
@@ -135,8 +139,6 @@ public class InsytoActivityV2 extends AppCompatActivity
 
         } else if (id == R.id.nav_send) {
 
-        } else if (id == R.id.nav_nearby) {
-            navNearby();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -144,37 +146,54 @@ public class InsytoActivityV2 extends AppCompatActivity
         return true;
     }
 
-    private void navNearby() {
+    private void navNearby(boolean active) {
         // TODO JUST EXAMPLE DO NOT USE
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+        final MainPrefs prefs = new MainPrefs(getApplicationContext());
         // Define a listener that responds to location updates
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                // Called when a new location is found by the network location provider.
-                Printer outPrinter = new PrintStreamPrinter(System.out);
-                location.dump(outPrinter, "Insyto location");
-            }
+        if (active) {
+            prefs.setNearbyActive(true);
+            locationListener = new LocationListener() {
+                public void onLocationChanged(Location location) {
+                    // Called when a new location is found by the network location provider.
+                    Printer outPrinter = new PrintStreamPrinter(System.out);
+                    location.dump(outPrinter, "Insyto location");
+                    prefs.setLastKnownLatitude(location.getLatitude());
+                    prefs.setLastKnownLongitude(location.getLongitude());
+                }
 
-            public void onStatusChanged(String provider, int status, Bundle extras) {}
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
 
-            public void onProviderEnabled(String provider) {}
+                public void onProviderEnabled(String provider) {
+                }
 
-            public void onProviderDisabled(String provider) {}
-        };
-        List<String> locationProviders = locationManager.getAllProviders();
-        // Register the listener with the Location Manager to receive location updates
-        try {
-            if (locationProviders.contains("network")) {
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
+                public void onProviderDisabled(String provider) {
+                }
+            };
+            List<String> locationProviders = locationManager.getAllProviders();
+            // Register the listener with the Location Manager to receive location updates
+            try {
+                if (locationProviders.contains("network")) {
+                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1000, 5, locationListener);
+                }
+                if (locationProviders.contains("gps")) {
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+                }
+
+            } catch (SecurityException e) {
+                Toast.makeText(getApplicationContext(), "Insufficient permissions to request location", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
-            if (locationProviders.contains("gps")) {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
+        } else {
+            prefs.setNearbyActive(false);
+            try {
+                locationManager.removeUpdates(locationListener);
+            } catch (SecurityException e) {
+                Toast.makeText(getApplicationContext(), "Insufficient permissions to request location", Toast.LENGTH_LONG).show();
+                e.printStackTrace();
             }
-        } catch (SecurityException e) {
-            Toast.makeText(getApplicationContext(), "Insufficient permissions to request location", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
         }
     }
 

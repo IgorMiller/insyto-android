@@ -11,15 +11,39 @@ public class InsytoUrlBuilder {
     private final static String INSYTES = "insytes";
     private final static String PAGE_PARAM = "page";
     private final static String NEWER_PARAM = "newer";
+    private final static String LON_PARAM = "lon";
+    private final static String LAT_PARAM = "lat";
 
     public static String getInsytesUrl(int pageNb)
     {
-        return getInsytesBuilder().appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb)).build().toString();
+        return getInsytesBuilder()
+                .appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb))
+                .build().toString();
+    }
+
+    public static String getInsytesUrlGPS(int pageNb, double longitude, double latitude)
+    {
+        return getInsytesBuilder()
+                .appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb))
+                .appendQueryParameter(LON_PARAM, Double.toString(longitude))
+                .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
+                .build().toString();
     }
 
     public static String getNewerInsytesUrl(long seconds)
     {
-        return getInsytesBuilder().appendQueryParameter(NEWER_PARAM, Long.toString(seconds)).build().toString();
+        return getInsytesBuilder()
+                .appendQueryParameter(NEWER_PARAM, Long.toString(seconds))
+                .build().toString();
+    }
+
+    public static String getNewerInsytesUrlGPS(long seconds, double longitude, double latitude)
+    {
+        return getInsytesBuilder()
+                .appendQueryParameter(NEWER_PARAM, Long.toString(seconds))
+                .appendQueryParameter(LON_PARAM, Double.toString(longitude))
+                .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
+                .build().toString();
     }
 
     public static String getInsytesUrl()
