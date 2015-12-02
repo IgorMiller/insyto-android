@@ -30,11 +30,15 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
             extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         TextView title;
         TextView description;
+        TextView author;
+        TextView category;
 
         public ItemViewHolder(View itemView) {
             super(itemView);
             title = (TextView) itemView.findViewById(R.id.insyte_title);
             description = (TextView) itemView.findViewById(R.id.insyte_description);
+            category = (TextView) itemView.findViewById(R.id.insyte_category);
+            author = (TextView) itemView.findViewById(R.id.insyte_author);
         }
 
         @Override
@@ -68,6 +72,8 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         final InsyteItemData insyteItem = mItems.get(position);
         holder.title.setText(insyteItem.getTitle()); // TODO
         holder.description.setText(insyteItem.getDescription());
+        holder.category.setText(insyteItem.getCategory_name());
+        holder.author.setText("AUTHOR TODO");
         // TODO all these listeners
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

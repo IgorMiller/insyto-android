@@ -179,7 +179,7 @@ public class InsytoActivityV2 extends AppCompatActivity
     }
 
     @Override
-    public void replaceInsyteFragment(String id)
+    public void replaceInsyteFragment(Integer id)
     {
         InsyteFragment insyteFragment = InsyteFragment.newInstance(id);
 

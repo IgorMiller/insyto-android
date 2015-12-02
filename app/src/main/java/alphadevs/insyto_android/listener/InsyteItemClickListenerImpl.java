@@ -12,7 +12,7 @@ public class InsyteItemClickListenerImpl implements InsyteItemClickListener {
     }
 
     @Override
-    public void onClick(String insyteId) {
+    public void onClick(Integer insyteId) {
         clickListener.replaceInsyteFragment(insyteId);
     }
 }

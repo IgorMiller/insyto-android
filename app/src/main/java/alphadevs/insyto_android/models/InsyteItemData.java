@@ -6,13 +6,16 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Date;
 
 public class InsyteItemData {
-    private String id;
+    private Integer id;
     private String title;
     private String description;
     private Date created_at;
     private Date updated_at;
     private Integer category_id;
     private String category_name;
+    private String media_type;
+    @SerializedName("media_attributes")
+    private InsyteMedia media;
 
 
     public String getTitle() {
@@ -31,11 +34,11 @@ public class InsyteItemData {
         this.description = description;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -69,5 +72,21 @@ public class InsyteItemData {
 
     public void setCategory_name(String category_name) {
         this.category_name = category_name;
+    }
+
+    public String getMedia_type() {
+        return media_type;
+    }
+
+    public void setMedia_type(String media_type) {
+        this.media_type = media_type;
+    }
+
+    public InsyteMedia getMedia() {
+        return media;
+    }
+
+    public void setMedia(InsyteMedia media) {
+        this.media = media;
     }
 }
