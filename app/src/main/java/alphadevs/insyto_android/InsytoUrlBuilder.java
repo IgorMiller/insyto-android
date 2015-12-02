@@ -11,7 +11,7 @@ public class InsytoUrlBuilder {
     private final static String INSYTES = "insytes";
     private final static String PAGE_PARAM = "page";
     private final static String NEWER_PARAM = "newer";
-    private final static String LON_PARAM = "lon";
+    private final static String LNG_PARAM = "lng";
     private final static String LAT_PARAM = "lat";
 
     public static String getInsytesUrl(int pageNb)
@@ -25,7 +25,7 @@ public class InsytoUrlBuilder {
     {
         return getInsytesBuilder()
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb))
-                .appendQueryParameter(LON_PARAM, Double.toString(longitude))
+                .appendQueryParameter(LNG_PARAM, Double.toString(longitude))
                 .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
                 .build().toString();
     }
@@ -41,7 +41,7 @@ public class InsytoUrlBuilder {
     {
         return getInsytesBuilder()
                 .appendQueryParameter(NEWER_PARAM, Long.toString(seconds))
-                .appendQueryParameter(LON_PARAM, Double.toString(longitude))
+                .appendQueryParameter(LNG_PARAM, Double.toString(longitude))
                 .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
                 .build().toString();
     }
