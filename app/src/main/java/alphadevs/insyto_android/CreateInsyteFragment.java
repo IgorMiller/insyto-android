@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import alphadevs.insyto_android.models.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteMediaText;
 import alphadevs.insyto_android.models.PostInsyteItem;
 
 
@@ -116,6 +117,11 @@ public class CreateInsyteFragment extends Fragment {
                 InsyteItemData insyteData = new InsyteItemData();
                 insyteData.setTitle(title.getText().toString());
                 insyteData.setDescription(description.getText().toString());
+
+                insyteData.setMedia_type("Text"); // TODO generic
+                insyteData.setCategory_id(1);// TODO category
+                insyteData.setMedia(new InsyteMediaText().withContent(content.getText().toString()));// TODO support other media types
+
                 PostInsyteItem postInsyte = new PostInsyteItem(insyteData);
                 String jsonBody = gson.toJson(postInsyte);
                 return jsonBody.getBytes();
@@ -127,7 +133,7 @@ public class CreateInsyteFragment extends Fragment {
                 params.put("Content-Type","application/json");
                 return params;
             }
-        };;
+        };
 
         // Add the request to the queue
         iVolley.add(stringRequest);

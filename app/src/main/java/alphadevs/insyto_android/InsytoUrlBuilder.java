@@ -27,9 +27,9 @@ public class InsytoUrlBuilder {
         return getInsytesBuilder().build().toString();
     }
 
-    public static String getInsyteUrl(String id)
+    public static String getInsyteUrl(Integer id)
     {
-        return getInsytesBuilder().appendEncodedPath(id).build().toString();
+        return getInsytesBuilder().appendEncodedPath(Integer.toString(id)).build().toString();
     }
 
     private static Uri.Builder getV1Builder()

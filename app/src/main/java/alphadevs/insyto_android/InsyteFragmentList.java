@@ -216,6 +216,6 @@ public class InsyteFragmentList extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnInsyteListInteractionListener {
-        void replaceInsyteFragment(String id);
+        void replaceInsyteFragment(Integer id);
     }
 }

@@ -40,7 +40,7 @@ public class InsytoActivity extends AppCompatActivity implements InsyteFragmentL
     }
 
     @Override
-    public void replaceInsyteFragment(String id)
+    public void replaceInsyteFragment(Integer id)
     {
         InsyteFragment insyteFragment = InsyteFragment.newInstance(id);
 

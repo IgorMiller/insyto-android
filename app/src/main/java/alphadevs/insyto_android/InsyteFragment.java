@@ -20,7 +20,7 @@ import alphadevs.insyto_android.models.InsyteItemData;
 public class InsyteFragment extends Fragment {
     static final String ARG_INSYTE_ID= "id";
     private static final Gson gson = InsytoGsonBuilder.create();
-    private String mInsyteId;
+    private Integer mInsyteId;
 
 
     private InsytoVolley iVolley = InsytoVolley.getInstance();
@@ -31,10 +31,10 @@ public class InsyteFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      */
-    public static InsyteFragment newInstance(String id) {
+    public static InsyteFragment newInstance(Integer id) {
         InsyteFragment fragment = new InsyteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_INSYTE_ID, id);
+        args.putInt(ARG_INSYTE_ID, id);
         fragment.setArguments(args);
         return fragment;
     }
@@ -47,7 +47,7 @@ public class InsyteFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mInsyteId = getArguments().getString(ARG_INSYTE_ID);
+            mInsyteId = getArguments().getInt(ARG_INSYTE_ID);
         }
     }
 
