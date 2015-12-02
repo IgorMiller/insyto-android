@@ -1,10 +1,8 @@
 package alphadevs.insyto_android;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,9 +10,6 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,7 +32,7 @@ import alphadevs.insyto_android.preferences.MainPrefs;
 
 public class InsyteFragmentList extends Fragment {
 
-    private final static Gson gson = InsytoGsonBuilder.create();
+    private final static Gson gson = InsytoGson.getInstance();
 
     private View rootView;
     protected RecyclerView mRecyclerView;
