@@ -32,6 +32,7 @@ import alphadevs.insyto_android.models.InsyteItemData;
 import alphadevs.insyto_android.helper.InsyteItemTouchHelperCallback;
 import alphadevs.insyto_android.listener.InsyteItemClickListenerImpl;
 import alphadevs.insyto_android.listener.RecyclerLoadMoreListener;
+import alphadevs.insyto_android.preferences.MainPrefs;
 
 
 public class InsyteFragmentList extends Fragment {
@@ -155,8 +156,12 @@ public class InsyteFragmentList extends Fragment {
 
     private void loadMoreInsytes(int page) {
         // Request a string response
+        MainPrefs prefs = new MainPrefs(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                InsytoUrlBuilder.getInsytesUrl(page),
+                (prefs.getNearbyActive())
+                        ? InsytoUrlBuilder.getInsytesUrlGPS(page,
+                                prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                        : InsytoUrlBuilder.getInsytesUrl(page),
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -183,14 +188,19 @@ public class InsyteFragmentList extends Fragment {
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+        System.out.println(stringRequest.getUrl());
     }
 
     private void loadNewerInsytes() {
         long secondsToLive = mAdapter.getFirstItemCreatedDate().getTime() / 1000 + 1;
         System.out.println(secondsToLive);
+        MainPrefs prefs = new MainPrefs(getContext());
         // Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
-                InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
+                (prefs.getNearbyActive())
+                        ? InsytoUrlBuilder.getNewerInsytesUrlGPS(secondsToLive,
+                        prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                        : InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -216,6 +226,7 @@ public class InsyteFragmentList extends Fragment {
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+        System.out.println(stringRequest.getUrl());
     }
 
     private void toastAnError() {

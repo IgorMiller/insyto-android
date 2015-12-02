@@ -148,6 +148,7 @@ public class InsytoActivityV2 extends AppCompatActivity
         // TODO JUST EXAMPLE DO NOT USE
         // Acquire a reference to the system Location Manager
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        final MainPrefs prefs = new MainPrefs(getApplicationContext());
 
         // Define a listener that responds to location updates
         LocationListener locationListener = new LocationListener() {
@@ -155,13 +156,19 @@ public class InsytoActivityV2 extends AppCompatActivity
                 // Called when a new location is found by the network location provider.
                 Printer outPrinter = new PrintStreamPrinter(System.out);
                 location.dump(outPrinter, "Insyto location");
+                prefs.setLastKnownLatitude(location.getLatitude());
+                prefs.setLastKnownLongitude(location.getLongitude());
+                prefs.setNearbyActive(true);
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {}
 
-            public void onProviderEnabled(String provider) {}
+            public void onProviderEnabled(String provider) {
+            }
 
-            public void onProviderDisabled(String provider) {}
+            public void onProviderDisabled(String provider) {
+                prefs.setNearbyActive(false);
+            }
         };
         List<String> locationProviders = locationManager.getAllProviders();
         // Register the listener with the Location Manager to receive location updates
@@ -172,6 +179,7 @@ public class InsytoActivityV2 extends AppCompatActivity
             if (locationProviders.contains("gps")) {
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 5, locationListener);
             }
+
         } catch (SecurityException e) {
             Toast.makeText(getApplicationContext(), "Insufficient permissions to request location", Toast.LENGTH_LONG).show();
             e.printStackTrace();
