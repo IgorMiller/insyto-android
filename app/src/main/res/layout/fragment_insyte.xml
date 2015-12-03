@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" tools:context="alphadevs.insyto_android.InsyteFragment"
-    android:background="?android:windowBackground"
     android:clickable="true"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -46,6 +45,13 @@
                     android:layout_height="match_parent"
                     android:textColor="@color/insyto_text"
                     android:textSize="16sp"/>
+
+                <VideoView
+                    android:id="@+id/card_video"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true" />
 
             </LinearLayout>
         </ScrollView>

@@ -2,7 +2,8 @@ package alphadevs.insyto_android;
 
 
 public enum InsyteMediaType {
-    TEXT("Text");
+    TEXT("Text"),
+    VIDEO("Video");
 
     private String type;
 

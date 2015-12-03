@@ -15,6 +15,7 @@ import java.util.Map;
 import alphadevs.insyto_android.models.InsyteItemData;
 import alphadevs.insyto_android.models.InsyteMedia;
 import alphadevs.insyto_android.models.InsyteMediaText;
+import alphadevs.insyto_android.models.InsyteMediaVideo;
 
 /**
  * Gson Builder with application configuration.
@@ -26,6 +27,7 @@ public class InsytoGson {
     static {
         InsyteDeserializer deserializer = new InsyteDeserializer("media_type");
         deserializer.registerMediaType(InsyteMediaType.TEXT.toString(), InsyteMediaText.class);
+        deserializer.registerMediaType(InsyteMediaType.VIDEO.toString(), InsyteMediaVideo.class);
         // TODO register other types, Video, Audio
         gson = new GsonBuilder().registerTypeAdapter(InsyteItemData.class, deserializer).create();
     }

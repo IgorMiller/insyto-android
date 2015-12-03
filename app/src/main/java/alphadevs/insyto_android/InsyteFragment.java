@@ -1,12 +1,20 @@
 package alphadevs.insyto_android;
 
+import android.app.ProgressDialog;
+import android.graphics.PixelFormat;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -15,7 +23,9 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import alphadevs.insyto_android.models.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteMedia;
 import alphadevs.insyto_android.models.InsyteMediaText;
+import alphadevs.insyto_android.models.InsyteMediaVideo;
 
 
 public class InsyteFragment extends Fragment {
@@ -23,6 +33,7 @@ public class InsyteFragment extends Fragment {
     private static final Gson gson = InsytoGson.getInstance();
     private Integer mInsyteId;
 
+    ProgressDialog pDialog;
 
     private InsytoVolley iVolley = InsytoVolley.getInstance();
 
@@ -46,6 +57,11 @@ public class InsyteFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
+        getActivity().getWindow().setFlags(
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED);
+
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mInsyteId = getArguments().getInt(ARG_INSYTE_ID);
@@ -88,8 +104,15 @@ public class InsyteFragment extends Fragment {
                         cardDescription.setText(insyteData.getDescription());
 
                         TextView cardContent = (TextView) rootView.findViewById(R.id.card_content);
-                        InsyteMediaText mediaText = (InsyteMediaText) insyteData.getMedia();
-                        cardContent.setText(mediaText.getContent());
+
+                        // TODO find a better method
+                        if(insyteData.getMedia() instanceof InsyteMediaText) {
+                            InsyteMediaText mediaText = (InsyteMediaText) insyteData.getMedia();
+                            cardContent.setText(mediaText.getContent());
+                        } else if (insyteData.getMedia() instanceof InsyteMediaVideo) {
+                            InsyteMediaVideo mediaVideo = (InsyteMediaVideo) insyteData.getMedia();
+                            setupVideoContent(mediaVideo.getUrl());
+                        }
 
                     }
                 }, new Response.ErrorListener() {
@@ -106,6 +129,51 @@ public class InsyteFragment extends Fragment {
 
         // Add the request to the queue
         iVolley.add(stringRequest);
+    }
+
+    private void setupVideoContent(String url)
+    {
+        final VideoView videoview = (VideoView) rootView.findViewById(R.id.card_video);
+        // Execute StreamVideo AsyncTask
+
+        // Create a progressbar
+        pDialog = new ProgressDialog(getContext());
+        // Set progressbar title
+        pDialog.setTitle("Android Video Streaming Tutorial");
+        // Set progressbar message
+        pDialog.setMessage("Buffering...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        // Show progressbar
+        pDialog.show();
+
+        try {
+            // Start the MediaController
+            MediaController mediacontroller = new MediaController(
+                    getActivity());
+            mediacontroller.setAnchorView(videoview);
+
+            // Get the URL from String VideoURL
+
+            // Uri video = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.AndroidCommercial);
+            Uri video = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
+            videoview.setMediaController(mediacontroller);
+            videoview.requestFocus();
+
+        videoview.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            // Close the progress bar and play the video
+            public void onPrepared(MediaPlayer mp) {
+                pDialog.dismiss();
+                videoview.requestFocus();
+                videoview.start();
+            }
+        });
+        videoview.setVideoURI(video);
+
+        } catch (Exception e) {
+            Log.e("Error", e.getMessage());
+            e.printStackTrace();
+        }
     }
 
     private void toastAnError()
