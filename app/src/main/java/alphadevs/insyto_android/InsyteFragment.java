@@ -1,7 +1,6 @@
 package alphadevs.insyto_android;
 
 import android.app.ProgressDialog;
-import android.graphics.PixelFormat;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
@@ -23,7 +22,6 @@ import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
 import alphadevs.insyto_android.models.InsyteItemData;
-import alphadevs.insyto_android.models.InsyteMedia;
 import alphadevs.insyto_android.models.InsyteMediaText;
 import alphadevs.insyto_android.models.InsyteMediaVideo;
 
@@ -154,9 +152,7 @@ public class InsyteFragment extends Fragment {
             mediacontroller.setAnchorView(videoview);
 
             // Get the URL from String VideoURL
-
-            // Uri video = Uri.parse("android.resource://" + getActivity().getPackageName() + "/" + R.raw.AndroidCommercial);
-            Uri video = Uri.parse("http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4");
+            Uri video = Uri.parse(url);
             videoview.setMediaController(mediacontroller);
             videoview.requestFocus();
 
