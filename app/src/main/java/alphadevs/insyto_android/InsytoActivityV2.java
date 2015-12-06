@@ -1,29 +1,26 @@
 package alphadevs.insyto_android;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.PrintStreamPrinter;
-import android.util.Printer;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.PrintStreamPrinter;
+import android.util.Printer;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import java.util.Arrays;
 import java.util.List;
 
 import alphadevs.insyto_android.preferences.MainPrefs;
@@ -115,6 +112,14 @@ public class InsytoActivityV2 extends AppCompatActivity
         if (id == R.id.action_nearby) {
             item.setChecked(!item.isChecked());
             navNearby(item.isChecked());
+
+            // Reload list fragment
+            android.support.v4.app.Fragment frag = getSupportFragmentManager().findFragmentById(R.id.insyte_list);
+            if(frag instanceof InsyteFragmentList)
+            {
+                ((InsyteFragmentList) frag).reloadAll();
+            }
+
             return true;
         }
 

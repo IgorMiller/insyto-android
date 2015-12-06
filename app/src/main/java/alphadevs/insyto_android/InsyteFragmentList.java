@@ -92,7 +92,7 @@ public class InsyteFragmentList extends Fragment {
                         .setAction("loadMore", new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                loadMoreInsytes(getCurrentPage());
+                                loadMoreInsytes(getCurrentPage(), false);
                             }
                         }).show();
             }
@@ -139,7 +139,7 @@ public class InsyteFragmentList extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        loadMoreInsytes(1);
+        loadMoreInsytes(1, false);
         // TODO faking data for the moment
         /*
         String fakeData = "[{\"id\":101,\"title\":\"FAKE DATA!!!\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\",\"media_id\":7,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:40:37.000Z\",\"updated_at\":\"2015-11-25T20:40:37.000Z\"}},{\"id\":100,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\",\"media_id\":6,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":6,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:38:46.000Z\",\"updated_at\":\"2015-11-25T20:38:46.000Z\"}},{\"id\":99,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\",\"media_id\":5,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":5,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T20:37:39.000Z\",\"updated_at\":\"2015-11-25T20:37:39.000Z\"}},{\"id\":98,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\",\"media_id\":4,\"media_type\":\"Video\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":4,\"url\":\"https://github.com/rails/rails/blob/master/activerecord/lib/active_record/nested_attributes.rb\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:56:19.000Z\",\"updated_at\":\"2015-11-25T19:56:19.000Z\"}},{\"id\":97,\"title\":\"Hello world, wanna rock?\",\"description\":\"Roll n rock again\",\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\",\"media_id\":7,\"media_type\":\"Text\",\"category_id\":5,\"category_name\":\"Geography\",\"media\":{\"id\":7,\"content\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"insyte_id\":null,\"created_at\":\"2015-11-25T19:54:51.000Z\",\"updated_at\":\"2015-11-25T19:54:51.000Z\"}}]";
@@ -149,7 +149,12 @@ public class InsyteFragmentList extends Fragment {
         //*/
     }
 
-    private void loadMoreInsytes(int page) {
+    public void reloadAll()
+    {
+        loadMoreInsytes(1, true);
+    }
+
+    private void loadMoreInsytes(int page, final boolean removeExisting) {
         // Request a string response
         MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
@@ -164,6 +169,10 @@ public class InsyteFragmentList extends Fragment {
                     Type listInsytesType = new TypeToken<List<InsyteItemData>>() {
                     }.getType();
                     List<InsyteItemData> insytesData = gson.fromJson(response, listInsytesType);
+                    if(removeExisting)
+                    {
+                        mAdapter.clear();
+                    }
                     mAdapter.addAll(insytesData, mAdapter.getItemCount());
                     doneLoading();
                 }

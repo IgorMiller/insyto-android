@@ -99,9 +99,15 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         notifyItemRemoved(index);
     }
 
+    public void clear()
+    {
+        mItems.clear();
+        notifyDataSetChanged();
+    }
+
     public Date getFirstItemCreatedDate()
     {
-        return mItems.get(0).getCreatedAt();
+        return mItems.size() > 0 ? mItems.get(0).getCreatedAt() : new Date(0);
     }
 
 
