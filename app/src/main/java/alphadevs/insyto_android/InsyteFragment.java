@@ -132,6 +132,8 @@ public class InsyteFragment extends Fragment {
     private void setupVideoContent(String url)
     {
         final VideoView videoview = (VideoView) rootView.findViewById(R.id.card_video);
+
+        videoview.setVisibility(View.VISIBLE);
         // Execute StreamVideo AsyncTask
 
         // Create a progressbar
