@@ -151,7 +151,7 @@ public class InsyteFragmentList extends Fragment {
 
     private void loadMoreInsytes(int page) {
         // Request a string response
-        MainPrefs prefs = new MainPrefs(getContext());
+        MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 (prefs.getNearbyActive())
                         ? InsytoUrlBuilder.getInsytesUrlGPS(page,
