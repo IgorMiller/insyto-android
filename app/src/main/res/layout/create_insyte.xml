@@ -34,26 +34,65 @@ android:orientation="vertical">
             android:textColor="@color/insyto_orange"/>
 
         <EditText
+            android:id="@+id/edit_description"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_below="@+id/edit_title"
-            android:id="@+id/edit_description"
             android:hint="@string/description_hint"
             android:textColorHint="@color/insyto_text_trans"
             android:textColor="@color/insyto_text"
             android:singleLine="false"
             android:inputType="textCapSentences"/>
 
+        <LinearLayout
+            android:id="@+id/btns_layout"
+            android:layout_below="@+id/edit_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/add_text_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/select_btn"
+                style="@style/select_btn_text"
+                android:text="@string/text"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/add_video_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/select_btn"
+                style="@style/select_btn_text"
+                android:text="@string/video"
+                android:textAllCaps="false"/>
+
+            <Button
+                android:id="@+id/add_audio_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/select_btn"
+                style="@style/select_btn_text"
+                android:text="@string/audio"
+                android:textAllCaps="false"/>
+        </LinearLayout>
+
         <EditText
+            android:id="@+id/edit_content"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_description"
-            android:id="@+id/edit_content"
+            android:layout_below="@+id/btns_layout"
             android:hint="@string/content_hint"
             android:textColorHint="@color/insyto_text_trans"
             android:textColor="@color/insyto_text"
             android:singleLine="false"
             android:inputType="textMultiLine|textCapSentences"/>
+
+
 
 
     </RelativeLayout>

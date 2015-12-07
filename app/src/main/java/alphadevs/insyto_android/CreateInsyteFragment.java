@@ -1,7 +1,12 @@
 package alphadevs.insyto_android;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +42,10 @@ public class CreateInsyteFragment extends Fragment {
 
     private View rootView;
 
+    private static final int SELECT_AUDIO = 2;
+    private static final int SELECT_VIDEO = 3;
+    String selectedPath = "";
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -71,6 +80,22 @@ public class CreateInsyteFragment extends Fragment {
             }
         });
 
+        Button bVideo = (Button) rootView.findViewById(R.id.add_video_btn);
+        bVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGalleryVideo();
+            }
+        });
+
+        Button bAudio = (Button) rootView.findViewById(R.id.add_audio_btn);
+        bAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGalleryAudio();
+            }
+        });
+
         return rootView;
     }
 
@@ -80,6 +105,53 @@ public class CreateInsyteFragment extends Fragment {
         title.requestFocus();
         InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(title, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    public void openGalleryAudio(){
+
+        Intent intent = new Intent();
+        intent.setType("audio/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Audio "), SELECT_AUDIO);
+    }
+
+    public void openGalleryVideo(){
+
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Video "), SELECT_VIDEO);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == SELECT_VIDEO || requestCode == SELECT_AUDIO) // TODO change type of the POST request...
+            {
+                Uri selectedImageUri = data.getData();
+                selectedPath = getPath(selectedImageUri);
+                System.out.println("SELECT Path : " + selectedPath);
+                doFileUpload(); // TODO on create insyte, upload video, audio
+            }
+
+        }
+    }
+
+    public String getPath(Uri uri) {
+        String res = null;
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, proj, null, null, null);
+        if(cursor.moveToFirst()){;
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
+
+    private void doFileUpload(){
+        Toast.makeText(getActivity(), "UPLOADING!!! (JOKE hahaha!)", Toast.LENGTH_LONG).show();
     }
 
     /*@Override
