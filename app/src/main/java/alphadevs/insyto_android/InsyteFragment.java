@@ -140,7 +140,7 @@ public class InsyteFragment extends Fragment {
     {
         // TODO audio continues to play after leaving fragment...
 
-
+        showBufferingDialog();
 
         final MediaPlayer mediaPlayer = new MediaPlayer();
         // Set type to streaming
@@ -159,6 +159,7 @@ public class InsyteFragment extends Fragment {
             @Override
             public void onPrepared(MediaPlayer mp) {
                 mediaPlayer.start();
+                pDialog.dismiss();
             }
         });
         // Set the data source to the remote URL
@@ -178,16 +179,7 @@ public class InsyteFragment extends Fragment {
         videoview.setVisibility(View.VISIBLE);
         // Execute StreamVideo AsyncTask
 
-        // Create a progressbar
-        pDialog = new ProgressDialog(getContext());
-        // Set progressbar title
-        pDialog.setTitle("Android Video Streaming Tutorial");
-        // Set progressbar message
-        pDialog.setMessage("Buffering...");
-        pDialog.setIndeterminate(false);
-        pDialog.setCancelable(true);
-        // Show progressbar
-        pDialog.show();
+        showBufferingDialog();
 
         try {
             // Start the MediaController
@@ -214,6 +206,19 @@ public class InsyteFragment extends Fragment {
             Log.e("Error", e.getMessage());
             e.printStackTrace();
         }
+    }
+
+    private void showBufferingDialog()
+    {
+        pDialog = new ProgressDialog(getContext());
+        // Set progressbar title
+        pDialog.setTitle("Please wait");
+        // Set progressbar message
+        pDialog.setMessage("Buffering...");
+        pDialog.setIndeterminate(false);
+        pDialog.setCancelable(true);
+        // Show progressbar
+        pDialog.show();
     }
 
     private void toastAnError()
