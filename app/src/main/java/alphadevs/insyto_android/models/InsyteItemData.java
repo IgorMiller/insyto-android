@@ -1,8 +1,6 @@
 package alphadevs.insyto_android.models;
 
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.Date;
 
 public class InsyteItemData {
@@ -16,6 +14,7 @@ public class InsyteItemData {
     private String media_type;
     private InsyteMedia media; // For GET method
     private InsyteMedia media_attributes; // For POST method
+    private String author;
 
 
     public String getTitle() {
@@ -96,5 +95,13 @@ public class InsyteItemData {
 
     public void setMedia_attributes(InsyteMedia media_attributes) {
         this.media_attributes = media_attributes;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

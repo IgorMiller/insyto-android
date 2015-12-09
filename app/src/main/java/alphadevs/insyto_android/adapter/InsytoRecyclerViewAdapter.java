@@ -73,7 +73,7 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         holder.title.setText(insyteItem.getTitle()); // TODO
         holder.description.setText(insyteItem.getDescription());
         holder.category.setText(insyteItem.getCategory_name());
-        holder.author.setText("AUTHOR TODO");
+        holder.author.setText("by " + insyteItem.getAuthor());
         // TODO all these listeners
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,9 +99,15 @@ public class InsytoRecyclerViewAdapter extends RecyclerView
         notifyItemRemoved(index);
     }
 
+    public void clear()
+    {
+        mItems.clear();
+        notifyDataSetChanged();
+    }
+
     public Date getFirstItemCreatedDate()
     {
-        return mItems.get(0).getCreatedAt();
+        return mItems.size() > 0 ? mItems.get(0).getCreatedAt() : new Date(0);
     }
 
 

@@ -1,6 +1,10 @@
 package alphadevs.insyto_android;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +15,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferState;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.AccessControlList;
+import com.amazonaws.services.s3.model.GroupGrantee;
+import com.amazonaws.services.s3.model.Permission;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -18,17 +33,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.google.gson.Gson;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import alphadevs.insyto_android.models.InsyteItemData;
+import alphadevs.insyto_android.models.InsyteMedia;
+import alphadevs.insyto_android.models.InsyteMediaAudio;
 import alphadevs.insyto_android.models.InsyteMediaText;
+import alphadevs.insyto_android.models.InsyteMediaVideo;
 import alphadevs.insyto_android.models.PostInsyteItem;
+import alphadevs.insyto_android.utils.RealPathUtil;
 
 
 public class CreateInsyteFragment extends Fragment {
     private static final Gson gson = InsytoGson.getInstance();
 
+    private final static String S3_BUCKET_NAME = "insyto";
 
     private EditText title, description, content;
     private Button create_button;
@@ -37,15 +59,17 @@ public class CreateInsyteFragment extends Fragment {
 
     private View rootView;
 
+    private static final int SELECT_AUDIO = 2;
+    private static final int SELECT_VIDEO = 3;
+    private String selectedPath = "";
+    private InsyteMediaType selectedMediaType = InsyteMediaType.TEXT;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      */
     public static CreateInsyteFragment newInstance() {
         CreateInsyteFragment fragment = new CreateInsyteFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_INSYTE_ID, id);
-        fragment.setArguments(args);*/
         return fragment;
     }
 
@@ -67,7 +91,38 @@ public class CreateInsyteFragment extends Fragment {
         create_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                postInsyte();
+                createInsyte();
+            }
+        });
+
+        // TODO change button style depending on content provided
+
+        Button bText = (Button) rootView.findViewById(R.id.add_text_btn);
+        bText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                content.setVisibility(View.VISIBLE);
+                selectedMediaType = InsyteMediaType.TEXT;
+            }
+        });
+
+        Button bVideo = (Button) rootView.findViewById(R.id.add_video_btn);
+        bVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                content.setVisibility(View.INVISIBLE);
+                selectedMediaType = InsyteMediaType.VIDEO;
+                openGalleryVideo();
+            }
+        });
+
+        Button bAudio = (Button) rootView.findViewById(R.id.add_audio_btn);
+        bAudio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                content.setVisibility(View.INVISIBLE);
+                selectedMediaType = InsyteMediaType.AUDIO;
+                openGalleryAudio();
             }
         });
 
@@ -82,14 +137,159 @@ public class CreateInsyteFragment extends Fragment {
         imm.showSoftInput(title, InputMethodManager.SHOW_IMPLICIT);
     }
 
-    /*@Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void openGalleryAudio(){
 
-        loadInsyte();
-    }*/
+        Intent intent = new Intent();
+        intent.setType("audio/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Audio "), SELECT_AUDIO);
+    }
 
-    private void postInsyte()
+    public void openGalleryVideo(){
+
+        Intent intent = new Intent();
+        intent.setType("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent,"Select Video "), SELECT_VIDEO);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == SELECT_VIDEO || requestCode == SELECT_AUDIO) // TODO change type of the POST request...
+            {
+                Uri selectedUri = data.getData();
+                selectedPath = getPathFromUri(selectedUri); // getRealPathFromURI(getActivity().getApplicationContext() ,selectedUri);
+                System.out.println("SELECT Path : " + selectedPath);
+            }
+
+        }
+    }
+
+    private String getPathFromUri(Uri uri) {
+        return RealPathUtil.getRealPathFromURI_API22(getContext(), uri);
+        /*if (Build.VERSION.SDK_INT < 11)
+            return RealPathUtil.getRealPathFromURI_BelowAPI11(getContext(), uri);
+        else if (Build.VERSION.SDK_INT < 19)
+            return RealPathUtil.getRealPathFromURI_API11to18(getContext(), uri);
+        else
+            return RealPathUtil.getRealPathFromURI_API19(getContext(), uri);*/
+    }
+
+    private void doFileUpload(){
+        Toast.makeText(getActivity(), "UPLOADING!!! (JOKE hahaha!)", Toast.LENGTH_LONG).show();
+    }
+
+    private void createInsyte()
+    {
+        if (selectedMediaType == InsyteMediaType.TEXT)
+        {
+            PostInsyteItem postInsyte = createInsyteItemToPost(selectedMediaType, "");
+            postInsyte(postInsyte);
+        } else {
+            // doFileUpload();
+            // Create an S3 client
+            final AmazonS3Client s3 = new AmazonS3Client(new AWSCredentials() {
+                @Override
+                public String getAWSAccessKeyId() {
+                    return ""; // TODO Get keys from server
+                }
+
+                @Override
+                public String getAWSSecretKey() {
+                    return "";
+                }
+            });
+
+            // Set the region of your S3 bucket
+            s3.setRegion(Region.getRegion(Regions.US_WEST_2));
+
+
+            TransferUtility transferUtility = new TransferUtility(s3, getActivity().getApplicationContext());
+
+            File file = new File(selectedPath);
+            final String s3ObjectName = UUID.randomUUID().toString();
+
+
+
+            TransferObserver observer = transferUtility.upload(
+                    S3_BUCKET_NAME,     /* The bucket to upload to */
+                    s3ObjectName,    /* The key for the uploaded object */
+                    file        /* The file where the data to upload exists */
+            );
+
+            String objectUrl = s3.getResourceUrl(S3_BUCKET_NAME, s3ObjectName);
+
+            final PostInsyteItem postInsyte = createInsyteItemToPost(selectedMediaType, objectUrl);
+
+            observer.setTransferListener(new TransferListener(){
+
+                @Override
+                public void onStateChanged(int id, TransferState state) {
+                    if( state == TransferState.COMPLETED) {
+
+                        // Set permissions in AsyncTask
+                        AsyncTask<Void, Void, Void> t = new AsyncTask<Void, Void, Void>() {
+                            @Override
+                            protected Void doInBackground(Void... v) {
+                                AccessControlList accessControlList = s3.getBucketAcl(S3_BUCKET_NAME);
+                                accessControlList.grantPermission(GroupGrantee.AllUsers, Permission.Read);
+                                s3.setObjectAcl(S3_BUCKET_NAME, s3ObjectName, accessControlList);
+                                return null;
+                            }
+                        }.execute();
+
+                        postInsyte(postInsyte);
+                    }
+                }
+
+                @Override
+                public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                    int percentage = (int) (bytesCurrent/bytesTotal * 100);
+                    //Display percentage transfered to user
+                }
+
+                @Override
+                public void onError(int id, Exception ex) {
+                    ex.printStackTrace();
+                    toastAnError();
+                }
+
+            });
+        }
+    }
+
+    private PostInsyteItem createInsyteItemToPost(InsyteMediaType mediaType, String contentUrl)
+    {
+        InsyteItemData insyteData = new InsyteItemData();
+        insyteData.setTitle(title.getText().toString());
+        insyteData.setDescription(description.getText().toString());
+
+        InsyteMedia insyteMedia;
+
+        if(mediaType == InsyteMediaType.TEXT) {
+            insyteMedia = new InsyteMediaText().withContent(content.getText().toString());
+        } else if (mediaType == InsyteMediaType.VIDEO){
+            insyteMedia = new InsyteMediaVideo().withUrl(contentUrl);
+        } else { // It is Audio
+            insyteMedia = new InsyteMediaAudio().withUrl(contentUrl);
+        }
+
+        insyteData.setMedia_type(mediaType.toString());
+
+
+        insyteData.setCategory_id(1);// TODO category
+
+
+        insyteData.setMedia_attributes(insyteMedia);
+
+        PostInsyteItem postInsyte = new PostInsyteItem(insyteData);
+
+        return postInsyte;
+    }
+
+    private void postInsyte(final PostInsyteItem postInsyte)
     {
         // Request a string response
         StringRequest stringRequest = new StringRequest(Request.Method.POST,
@@ -113,15 +313,6 @@ public class CreateInsyteFragment extends Fragment {
         }){
             @Override
             public byte[] getBody() throws AuthFailureError {
-                InsyteItemData insyteData = new InsyteItemData();
-                insyteData.setTitle(title.getText().toString());
-                insyteData.setDescription(description.getText().toString());
-
-                insyteData.setMedia_type("Text"); // TODO generic
-                insyteData.setCategory_id(1);// TODO category
-                insyteData.setMedia_attributes(new InsyteMediaText().withContent(content.getText().toString()));// TODO support other media types
-
-                PostInsyteItem postInsyte = new PostInsyteItem(insyteData);
                 String jsonBody = gson.toJson(postInsyte);
                 return jsonBody.getBytes();
             }
