@@ -110,8 +110,7 @@ public class InsytoActivityV2 extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-	} else if (id == R.id.action_nearby) {
+        if (id == R.id.action_nearby) {
             item.setChecked(!item.isChecked());
             navNearby(item.isChecked());
 
@@ -134,23 +133,25 @@ public class InsytoActivityV2 extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
+        /*
+        } else if (id == R.id.nav_camera) {
             // Handle the camera action
         } else if (id == R.id.nav_gallery) {
 
         } else if (id == R.id.nav_slideshow) {
 
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
 
-       // } else if (id == R.id.nav_nearby) {
-         //   item.setChecked(!item.isChecked());
-           // navNearby(item.isChecked());
+        } else if (id == R.id.nav_nearby) {
+            item.setChecked(!item.isChecked());
+            navNearby(item.isChecked());
+        //*/
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
