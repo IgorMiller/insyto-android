@@ -241,6 +241,7 @@ public class InsyteFragmentList extends Fragment {
     private void doneLoading() {
         SwipeRefreshLayout swipeContainer = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_container);
         swipeContainer.setRefreshing(false);
+        mRecyclerView.scrollToPosition(0);
     }
 
     /**
