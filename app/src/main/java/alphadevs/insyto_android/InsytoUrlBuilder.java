@@ -6,9 +6,10 @@ import android.net.Uri;
  * Use it to create required URLs for insyto.
  */
 public class InsytoUrlBuilder {
-    private final static String BASE_URL = "http://b15002c9.ngrok.io"; // TODO change per config
+    private final static String BASE_URL = "http://32a95852.ngrok.io"; // TODO change per config
     private final static String API_V1 = "v1";
     private final static String INSYTES = "insytes";
+    private final static String API_KEYS = "api_keys";
     private final static String PAGE_PARAM = "page";
     private final static String NEWER_PARAM = "newer";
     private final static String LNG_PARAM = "lng";
@@ -19,6 +20,11 @@ public class InsytoUrlBuilder {
         return getInsytesBuilder()
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb))
                 .build().toString();
+    }
+
+    public static String getAmazonApiKeysUrl()
+    {
+        return getV1Builder().appendEncodedPath(API_KEYS).appendEncodedPath("amazon").build().toString();
     }
 
     public static String getInsytesUrlGPS(int pageNb, double longitude, double latitude)
