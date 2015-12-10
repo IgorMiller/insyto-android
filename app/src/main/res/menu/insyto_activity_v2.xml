@@ -4,9 +4,7 @@
     <item
         android:id="@+id/action_nearby"
         android:orderInCategory="100"
-        android:title="Nearby"
+        android:title="@string/action_nearby"
         app:showAsAction="never"
-        android:checkable="true"
-        android:checked="false"/>
-
+        android:checkable="true"/>
 </menu>
