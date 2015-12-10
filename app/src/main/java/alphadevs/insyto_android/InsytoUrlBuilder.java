@@ -6,7 +6,7 @@ import android.net.Uri;
  * Use it to create required URLs for insyto.
  */
 public class InsytoUrlBuilder {
-    private final static String BASE_URL = "http://b15002c9.ngrok.io"; // TODO change per config
+    private final static String BASE_URL = "http://159.203.0.244:3000"; // TODO change per config
     private final static String API_V1 = "v1";
     private final static String INSYTES = "insytes";
     private final static String PAGE_PARAM = "page";
