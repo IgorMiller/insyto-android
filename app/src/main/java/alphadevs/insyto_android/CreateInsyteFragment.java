@@ -1,6 +1,7 @@
 package alphadevs.insyto_android;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,9 @@ public class CreateInsyteFragment extends Fragment {
     private String selectedPath = "";
     private InsyteMediaType selectedMediaType = InsyteMediaType.TEXT;
 
+    NotificationManager mNotifyManager;
+    NotificationCompat.Builder mBuilder;
+
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -103,19 +108,19 @@ public class CreateInsyteFragment extends Fragment {
 
         includeLocationChkbx = (CheckBox) rootView.findViewById(R.id.chkUseLocation);
         includeLocationChkbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-               @Override
-               public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                   MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
-                   if(isChecked){
-                       boolean nearbyActiveOld = prefs.getNearbyActive();
-                       if (!nearbyActiveOld){
-                           ((InsytoActivityV2) getActivity()).activateLocation();
-                       }
-                   } else {
-                       ((InsytoActivityV2) getActivity()).deactivateLocation();
-                   }
-               }
-           }
+                                                            @Override
+                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                                MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
+                                                                if (isChecked) {
+                                                                    boolean nearbyActiveOld = prefs.getNearbyActive();
+                                                                    if (!nearbyActiveOld) {
+                                                                        ((InsytoActivityV2) getActivity()).activateLocation();
+                                                                    }
+                                                                } else {
+                                                                    ((InsytoActivityV2) getActivity()).deactivateLocation();
+                                                                }
+                                                            }
+                                                        }
         );
 
         // TODO change button style depending on content provided
@@ -148,6 +153,10 @@ public class CreateInsyteFragment extends Fragment {
                 openGalleryAudio();
             }
         });
+
+        mNotifyManager =
+                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(getActivity());
 
         return rootView;
     }
@@ -366,6 +375,20 @@ public class CreateInsyteFragment extends Fragment {
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent/bytesTotal * 100);
                 //TODO Display percentage transfered to user
+
+                if(bytesTotal > bytesCurrent) {
+                    mBuilder.setContentTitle("Insyto")
+                            .setContentText("Upload in progress")
+                            .setSmallIcon(R.drawable.ic_insyto);
+                    mBuilder.setProgress(100, percentage, false);
+                    // Displays the progress bar for the first time.
+                    mNotifyManager.notify(id, mBuilder.build());
+                }else {
+                    mBuilder.setContentText("Upload complete")
+                            // Removes the progress bar
+                            .setProgress(0, 0, false);
+                    mNotifyManager.notify(id, mBuilder.build());
+                }
             }
 
             @Override
