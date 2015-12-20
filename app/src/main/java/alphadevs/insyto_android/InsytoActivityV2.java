@@ -169,6 +169,7 @@ public class InsytoActivityV2 extends AppCompatActivity
                 // Called when a new location is found by the network location provider.
                 Printer outPrinter = new PrintStreamPrinter(System.out);
                 location.dump(outPrinter, "Insyto location");
+                System.out.println(location.getLongitude());
                 prefs.setLastKnownLatitude(location.getLatitude());
                 prefs.setLastKnownLongitude(location.getLongitude());
             }

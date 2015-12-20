@@ -14,6 +14,7 @@ public class InsytoUrlBuilder {
     private final static String NEWER_PARAM = "newer";
     private final static String LNG_PARAM = "lng";
     private final static String LAT_PARAM = "lat";
+    private final static String RADIUS_PARAM = "radius";
 
     public static String getInsytesUrl(int pageNb)
     {
@@ -27,12 +28,13 @@ public class InsytoUrlBuilder {
         return getV1Builder().appendEncodedPath(API_KEYS).appendEncodedPath("amazon").build().toString();
     }
 
-    public static String getInsytesUrlGPS(int pageNb, double longitude, double latitude)
+    public static String getInsytesUrlGPS(int pageNb, double longitude, double latitude, double radius)
     {
         return getInsytesBuilder()
                 .appendQueryParameter(PAGE_PARAM, Integer.toString(pageNb))
                 .appendQueryParameter(LNG_PARAM, Double.toString(longitude))
                 .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
+                .appendQueryParameter(RADIUS_PARAM, Double.toString(radius))
                 .build().toString();
     }
 
@@ -43,12 +45,13 @@ public class InsytoUrlBuilder {
                 .build().toString();
     }
 
-    public static String getNewerInsytesUrlGPS(long seconds, double longitude, double latitude)
+    public static String getNewerInsytesUrlGPS(long seconds, double longitude, double latitude, double radius)
     {
         return getInsytesBuilder()
                 .appendQueryParameter(NEWER_PARAM, Long.toString(seconds))
                 .appendQueryParameter(LNG_PARAM, Double.toString(longitude))
                 .appendQueryParameter(LAT_PARAM, Double.toString(latitude))
+                .appendQueryParameter(RADIUS_PARAM, Double.toString(radius))
                 .build().toString();
     }
 

@@ -160,7 +160,8 @@ public class InsyteFragmentList extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 (prefs.getNearbyActive())
                         ? InsytoUrlBuilder.getInsytesUrlGPS(page,
-                                prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                                prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude(),
+                                prefs.getNearbyRadius())
                         : InsytoUrlBuilder.getInsytesUrl(page),
             new Response.Listener<String>() {
                 @Override
@@ -203,7 +204,8 @@ public class InsyteFragmentList extends Fragment {
         StringRequest stringRequest = new StringRequest(Request.Method.GET,
                 (prefs.getNearbyActive())
                         ? InsytoUrlBuilder.getNewerInsytesUrlGPS(secondsToLive,
-                        prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude())
+                        prefs.getLastKnownLongitude(), prefs.getLastKnownLatitude(),
+                        prefs.getNearbyRadius())
                         : InsytoUrlBuilder.getNewerInsytesUrl(secondsToLive),
             new Response.Listener<String>() {
                 @Override
