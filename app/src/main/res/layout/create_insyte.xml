@@ -92,7 +92,14 @@ android:orientation="vertical">
             android:singleLine="false"
             android:inputType="textMultiLine|textCapSentences"/>
 
-
+        <CheckBox
+            android:id="@+id/chkUseLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edit_content"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            android:text="@string/chk_with_location" />
 
 
     </RelativeLayout>

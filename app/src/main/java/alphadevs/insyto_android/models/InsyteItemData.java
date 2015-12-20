@@ -16,6 +16,9 @@ public class InsyteItemData {
     private InsyteMedia media_attributes; // For POST method
     private String author;
 
+    private Double lat;
+    private Double lng;
+
 
     public String getTitle() {
         return title;
@@ -103,5 +106,21 @@ public class InsyteItemData {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLng() {
+        return lng;
+    }
+
+    public void setLng(Double lng) {
+        this.lng = lng;
     }
 }

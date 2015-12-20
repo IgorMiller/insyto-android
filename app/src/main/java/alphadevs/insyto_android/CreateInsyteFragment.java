@@ -1,6 +1,7 @@
 package alphadevs.insyto_android;
 
 import android.app.Activity;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -8,11 +9,14 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NotificationCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -46,6 +50,7 @@ import alphadevs.insyto_android.models.InsyteMediaAudio;
 import alphadevs.insyto_android.models.InsyteMediaText;
 import alphadevs.insyto_android.models.InsyteMediaVideo;
 import alphadevs.insyto_android.models.PostInsyteItem;
+import alphadevs.insyto_android.preferences.MainPrefs;
 import alphadevs.insyto_android.utils.RealPathUtil;
 
 
@@ -56,6 +61,7 @@ public class CreateInsyteFragment extends Fragment {
 
     private EditText title, description, content;
     private Button create_button;
+    private CheckBox includeLocationChkbx;
 
     private InsytoVolley iVolley = InsytoVolley.getInstance();
 
@@ -65,6 +71,9 @@ public class CreateInsyteFragment extends Fragment {
     private static final int SELECT_VIDEO = 3;
     private String selectedPath = "";
     private InsyteMediaType selectedMediaType = InsyteMediaType.TEXT;
+
+    NotificationManager mNotifyManager;
+    NotificationCompat.Builder mBuilder;
 
     /**
      * Use this factory method to create a new instance of
@@ -97,6 +106,23 @@ public class CreateInsyteFragment extends Fragment {
             }
         });
 
+        includeLocationChkbx = (CheckBox) rootView.findViewById(R.id.chkUseLocation);
+        includeLocationChkbx.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                                            @Override
+                                                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                                                MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
+                                                                if (isChecked) {
+                                                                    boolean nearbyActiveOld = prefs.getNearbyActive();
+                                                                    if (!nearbyActiveOld) {
+                                                                        ((InsytoActivityV2) getActivity()).activateLocation();
+                                                                    }
+                                                                } else {
+                                                                    ((InsytoActivityV2) getActivity()).deactivateLocation();
+                                                                }
+                                                            }
+                                                        }
+        );
+
         // TODO change button style depending on content provided
 
         Button bText = (Button) rootView.findViewById(R.id.add_text_btn);
@@ -127,6 +153,10 @@ public class CreateInsyteFragment extends Fragment {
                 openGalleryAudio();
             }
         });
+
+        mNotifyManager =
+                (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(getActivity());
 
         return rootView;
     }
@@ -234,6 +264,13 @@ public class CreateInsyteFragment extends Fragment {
 
         insyteData.setCategory_id(1);// TODO category
 
+        // Add lat lng to the insyte
+        MainPrefs prefs = new MainPrefs(getActivity().getApplicationContext());
+        if(includeLocationChkbx.isChecked()) {
+            insyteData.setLat(prefs.getLastKnownLatitude());
+            insyteData.setLng(prefs.getLastKnownLongitude());
+        }
+
 
         insyteData.setMedia_attributes(insyteMedia);
 
@@ -337,7 +374,21 @@ public class CreateInsyteFragment extends Fragment {
             @Override
             public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
                 int percentage = (int) (bytesCurrent/bytesTotal * 100);
-                //Display percentage transfered to user
+                //TODO Display percentage transfered to user
+
+                if(bytesTotal > bytesCurrent) {
+                    mBuilder.setContentTitle("Insyto")
+                            .setContentText("Upload in progress")
+                            .setSmallIcon(R.drawable.ic_insyto);
+                    mBuilder.setProgress(100, percentage, false);
+                    // Displays the progress bar for the first time.
+                    mNotifyManager.notify(id, mBuilder.build());
+                }else {
+                    mBuilder.setContentText("Upload complete")
+                            // Removes the progress bar
+                            .setProgress(0, 0, false);
+                    mNotifyManager.notify(id, mBuilder.build());
+                }
             }
 
             @Override

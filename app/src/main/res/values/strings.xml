@@ -4,6 +4,8 @@
     <string name="nav_settings">Settings</string>
     <string name="action_nearby">Nearby</string>
 
+    <string name="chk_with_location">Include location</string>
+
     <string name="create_button">Create insyte!</string>
     <string name="video">Video</string>
     <string name="audio">Audio</string>
